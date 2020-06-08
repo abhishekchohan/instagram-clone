@@ -1,0 +1,47 @@
+import React from "react";
+import { Link, useHistory } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { set_islogged } from "./actions/index";
+
+const Header = () => {
+
+    // isAuth is state for user to be logged in or not.
+    // dispatch and history are initialised for using them later to set state and redirect respectively.
+    const isAuth = useSelector(state => state.isLogged);
+    const dispatch = useDispatch();
+    const history = useHistory();
+
+    // Logout function to logout user
+    const logout = () => {
+        localStorage.clear();   // clear the localstorage and token for this domain.
+        dispatch(set_islogged());   // set state to false // user logged out .
+        history.push("/login"); // redirect user to login page.
+    }
+
+    // naviagtion bar component and using isAuth to decide what link should redirect to what screens.
+    return (<nav className="white">
+        <div className="nav-wrapper">
+            <Link to={isAuth ? "/" : "/login"} className="brand-logo insta-font left">Instagram</Link>
+            <ul className="right">
+                {
+                    isAuth ? <>
+                        <li><Link to="/"><i className="fas fa-home-lg-alt"></i></Link></li>
+                        <li><Link to="/profile"><i className="fas fa-2x fa-user-circle"></i></Link></li>
+                        <li onClick={logout}><Link to=""><i className="fas fa-2x fa-sign-out-alt"></i></Link></li>
+
+                    </>
+                        :
+                        <>
+                            <li><Link to="/login"><i className="fas fa-2x fa-sign-in-alt"></i></Link></li>
+                            <li><Link to="/signup"><i className="fas fa-2x fa-user-plus"></i></Link></li>
+                        </>
+                }
+
+
+
+            </ul>
+        </div>
+    </nav>)
+}
+
+export default Header;
