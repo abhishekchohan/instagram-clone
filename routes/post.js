@@ -16,8 +16,24 @@ router.get('/allposts', isLogged, (req, res) => {
         .catch(err => console.log(err));
 });
 
+// This one is just to validate user authentification..
 router.post('/', isLogged, (req, res) => {
-    res.json({ isLogged: true })
+    res.json({ isLogged: true, user: req.user })
+});
+
+// This route is for Like button functionality..
+router.post('/like', isLogged, (req, res) => {
+    const { postId } = req.body;
+    Post.findById(postId, 'likes')
+        .then(post => {
+            if (post.likes.find(likeid => likeid.equals(req.user._id))) {
+                Post.updateOne({ _id: postId }, { $pull: { likes: req.user._id } }).exec();
+            } else {
+                Post.updateOne({ _id: postId }, { $push: { likes: req.user._id } }).exec();
+            }
+        })
+        .catch(er => console.log(er))
+    res.json({ message: "task completed." })
 });
 
 
