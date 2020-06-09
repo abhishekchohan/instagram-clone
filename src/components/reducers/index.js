@@ -1,12 +1,14 @@
-import loggedReducer from "./loggedReducer";
 import { combineReducers } from "redux";
-import loadedReducer from "./loadedReducer";
+import loggedReducer from "./loggedReducer";
 import homePostReducer from "./homePostReducer";
+import loggedUserReducer from "./loggedUserReducer";
+import updateReducer from "./updateReducer";
 
 const allReducers = combineReducers({
     isLogged: loggedReducer,
-    isLoaded: loadedReducer,
     ishposts: homePostReducer,
+    loggedUser: loggedUserReducer,
+    isUpdate: updateReducer
 })
 
 export default allReducers;

@@ -1,7 +1,9 @@
-const loggedReducer = (state = false, action) => {
+const loggedReducer = (state = null, action) => {
     switch (action.type) {
-        case 'UPDATE_LOG':
-            return !state
+        case 'set_logged_true':
+            return true
+        case 'set_logged_false':
+            return false
         default:
             return state
     }

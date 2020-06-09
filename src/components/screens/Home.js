@@ -10,6 +10,8 @@ const Home = () => {
     //isAuth and posts are two states stored in redux store
     // isAuth tells whether user is logged in or not.
     const isAuth = useSelector(state => state.isLogged);
+
+    const isUpdate = useSelector(state => state.isUpdate);
     // posts conatin aray of posts objects to display  posts on home page.
     const posts = useSelector(state => state.ishposts);
     const dispatch = useDispatch();
@@ -32,7 +34,7 @@ const Home = () => {
             // })
         }
         // eslint-disable-next-line
-    }, [isAuth]);
+    }, [isAuth, isUpdate]);
 
     return (
         <div className="home card-home">

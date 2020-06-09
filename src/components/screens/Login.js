@@ -1,15 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { isMobile } from "react-device-detect";
 import M from "materialize-css";
 import { useDispatch, useSelector } from "react-redux";
-import { set_islogged } from "../actions";
+import { set_islogged, set_loggedUser } from "../actions";
 
 const Login = () => {
     const history = useHistory();
     const dispatch = useDispatch();
     // isAuth to verify if user is already logged in or not.
     const isAuth = useSelector(state => state.isLogged);
+    const [display, setDisplay] = useState(null);
     // usestate hook that contains object which carry email and passsword values.
     const [formData, setFormData] = useState({ email: "", password: "" });
     // Destructuring values from formData object.
@@ -24,7 +25,6 @@ const Login = () => {
             return { ...prevSate, [name]: value } // destructring the prev state and adding new at the end to overwite the changes.
         })
     }
-
 
     // Handle Login form data and make a request to server to login user.
     const handleLogin = e => {
@@ -55,7 +55,7 @@ const Login = () => {
                         setFormData({ email: "", password: "" })
                         // Saving token and user data in localStorage
                         localStorage.setItem("jwt", data.token)
-                        localStorage.setItem("user", JSON.stringify(data.user))
+                        dispatch(set_loggedUser(data.user))
                         dispatch(set_islogged());
                         // Redirect user to Home page.. 
                         history.push("/");
@@ -69,9 +69,23 @@ const Login = () => {
             M.toast({ html: "Invalid email or other fields<br>Please check your inputs again.", classes: "red darken-1" })
         }
     }
+
+
+    useEffect(() => {
+        if (isAuth) {
+            history.push("/");
+        }
+        else {
+            setDisplay(true);
+        }
+        // eslint-disable-next-line
+    }, [isAuth]);
+
+
+
     return (
 
-        !isAuth ? <>
+        display && <>
             <form method="post" className="card card-login" onSubmit={handleLogin}>
                 <h2 className="insta-font">Instagram</h2>
                 <input type="email" autoComplete="off"
@@ -106,8 +120,6 @@ const Login = () => {
                     </button></div>
             </div>
         </>
-            :
-            null
     );
 }
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { set_islogged } from "./actions/index";
+import { unset_islogged, unset_loggedUser } from "./actions/index";
 
 const Header = () => {
 
@@ -14,7 +14,8 @@ const Header = () => {
     // Logout function to logout user
     const logout = () => {
         localStorage.clear();   // clear the localstorage and token for this domain.
-        dispatch(set_islogged());   // set state to false // user logged out .
+        dispatch(unset_islogged());   // set state to false // user logged out .
+        dispatch(unset_loggedUser());
         history.push("/login"); // redirect user to login page.
     }
 

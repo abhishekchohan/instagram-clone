@@ -1,12 +1,12 @@
 export const set_islogged = () => {
     return {
-        type: 'UPDATE_LOG'
+        type: 'set_logged_true'
     }
 }
 
-export const set_isLoaded = () => {
+export const unset_islogged = () => {
     return {
-        type: 'UPDATE_LOAD'
+        type: 'set_logged_false'
     }
 }
 
@@ -21,5 +21,24 @@ export const update_hPosts = (data) => {
     return {
         type: 'UPDATE_HPOSTS',
         payload: data
+    }
+}
+
+export const set_loggedUser = (data) => {
+    return {
+        type: 'set_loggedUser',
+        payload: data
+    }
+}
+
+export const unset_loggedUser = () => {
+    return {
+        type: 'unset_loggedUser',
+    }
+}
+
+export const update_data = () => {
+    return {
+        type: 'update_data',
     }
 }
