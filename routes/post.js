@@ -8,7 +8,8 @@ router.get('/allposts', isLogged, (req, res) => {
     Post.find()
         .sort({ postedTime: -1 })
         .populate("postedBy", "_id username")
-        .populate("likes", "_id, username")
+        .populate("likes", "_id username")
+        .populate('comments.by', "_id username")
         .exec()
         .then(posts => {
             res.json({ posts })
@@ -37,6 +38,20 @@ router.post('/like', isLogged, (req, res) => {
 });
 
 
+// This route add comment to the selected post..
+router.post('/postcomment', isLogged, (req, res) => {
+    const { postId, comment } = req.body;
+    Post.findById(postId, 'comments')
+        .then(post => {
+            Post.updateOne({ _id: postId }, { $push: { comments: { by: req.user._id, comment } } })
+                .exec()
+                .catch(er => console.log(er));
+        })
+        .catch(er => console.log(er))
+    res.json({ message: "task completed." })
+});
+
+//This route create new post.
 router.post('/createpost', isLogged, (req, res) => {
     const { caption, url } = req.body;
     if (!caption || !url) {
@@ -54,6 +69,8 @@ router.post('/createpost', isLogged, (req, res) => {
         .catch(err => console.log(err))
 })
 
+
+// This route will provide specific user's all posts
 router.get('/myposts', isLogged, (req, res) => {
     Post.find({ postedBy: req.user._id })
         .populate("postedBy", "_id username")

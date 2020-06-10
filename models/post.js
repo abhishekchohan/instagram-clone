@@ -20,7 +20,16 @@ const postSchema = new mongoose.Schema({
     postedTime: {
         type: Date,
         default: Date.now
-    }
+    },
+    comments: [{
+        by: {
+            type: ObjectId,
+            ref: 'User'
+        },
+        comment: {
+            type: String,
+        }
+    }]
 })
 
 mongoose.model("Post", postSchema);
