@@ -1,3 +1,5 @@
+/* =======================     Global body Styling =============== */
+
 body {
   margin: 10vh auto;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -13,6 +15,8 @@ code {
     monospace;
 }
 
+/* ==================    Global Styling for Large Scrren Devices    ======================= */
+
 @media (min-width: 1025px) {
   body{
     width: 60%;
@@ -21,11 +25,4 @@ code {
     width: 60%;
     margin: 0 auto;
   }
-}
-
-nav {
-  position: fixed;
-  top:0;
-  left: 0;
-  z-index: 99;
 }

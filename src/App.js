@@ -7,6 +7,8 @@ import allReducers from "./components/reducers";
 import { Provider } from 'react-redux';
 import Routing from "./components/Routing";
 
+
+// Redux store.
 const store = createStore(allReducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 

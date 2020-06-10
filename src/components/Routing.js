@@ -12,7 +12,9 @@ import Signup from '../components/screens/Signup';
 const Routing = () => {
     const isAuth = useSelector(state => state.isLogged);
     const dispatch = useDispatch();
+    // first thing that will run and identify if user has a session saved or not..
     useEffect(() => {
+        //using unstable batch updates so that the setstate functions dont trigger useEffect again and again
         ReactDOM.unstable_batchedUpdates(() => {
             fetch("/", {
                 method: "post",
@@ -24,13 +26,15 @@ const Routing = () => {
                 .then(data => data.json())
                 .then(data => {
                     if (data.isLogged) {
+                        // setting user data to set_isloggedUser state
                         dispatch(set_loggedUser(data.user))
+                        // setting state to true for isLogged state using set_islogged action dispatch
                         dispatch(set_islogged())
                     }
                     if (data.error) {
+                        // unset the states to false or null
                         dispatch(unset_loggedUser())
                         dispatch(unset_islogged())
-                        //history.push('/login');
                     }
                 }).catch(er => console.log(er));
         })
@@ -38,8 +42,10 @@ const Routing = () => {
     }, []);
     return (
 
-        <Switch>
+        < Switch >
             {
+                // all the routes except signup route, when user is not logged in, will redirect to login route.
+                // When the user is logged in then all the inactive routes will redirect to home route.
                 isAuth && <Route path="/profile" >
                     <Profile />
                 </Route>
@@ -64,7 +70,7 @@ const Routing = () => {
                     <Login />
                 </Route>
             }
-        </Switch>
+        </Switch >
 
     )
 }

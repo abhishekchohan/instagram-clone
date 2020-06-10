@@ -25,13 +25,14 @@ const Header = () => {
             <Link to={isAuth ? "/" : "/login"} className="brand-logo insta-font left">Instagram</Link>
             <ul className="right">
                 {
-                    isAuth ? <>
-                        <li><Link to="/"><i className="fas fa-home-lg-alt"></i></Link></li>
-                        <li><Link to="/profile"><i className="fas fa-2x fa-user-circle"></i></Link></li>
-                        <li onClick={logout}><Link to=""><i className="fas fa-2x fa-sign-out-alt"></i></Link></li>
+                    isAuth ? // after login links..
+                        <>
+                            <li><Link to="/"><i className="fas fa-home-lg-alt"></i></Link></li>
+                            <li><Link to="/profile"><i className="fas fa-2x fa-user-circle"></i></Link></li>
+                            <li onClick={logout}><Link to=""><i className="fas fa-2x fa-sign-out-alt"></i></Link></li>
 
-                    </>
-                        :
+                        </>
+                        :   // before login links..
                         <>
                             <li><Link to="/login"><i className="fas fa-2x fa-sign-in-alt"></i></Link></li>
                             <li><Link to="/signup"><i className="fas fa-2x fa-user-plus"></i></Link></li>

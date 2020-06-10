@@ -40,10 +40,10 @@ const Home = () => {
         <div className="home card-home">
             {
                 isAuth &&
-                posts &&
+                posts && // only display phomescreen if user is loged in and post array has data from fetch api..
                 <div style={{ position: "relative" }}>
                     <CreatePost />
-                    {
+                    { // mapping through the post state array to display all the posts on home page..
                         posts.map(post => {
                             return <Post key={post._id} post={post} />
                         })

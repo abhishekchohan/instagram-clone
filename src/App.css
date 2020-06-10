@@ -1,5 +1,36 @@
 @import url('https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap');
 
+/* =================  Some global styling =================== */
+
+.text-transparent {
+    color: transparent;
+}
+
+a {
+    color: #000 !important;
+}
+
+a:hover {
+    background-color: transparent !important;
+  }
+
+  strong {
+    color: #000000;
+}
+  
+  /* ==========================   Navbar Styling ====================== */
+  
+  nav {
+    position: fixed;
+    top:0;
+    left: 0;
+    z-index: 99;
+  }
+  
+
+
+/* ===========  Placeholder color styling =============== */
+
 :-moz-placeholder { /* Firefox 18- */
     color: grey;
     opacity: 1 !important;
@@ -19,13 +50,41 @@
     opacity: 1 !important; /* for older chrome versions. may no longer apply. */
 }
 
+/* =======  Instagram Font ========== */
+
 .insta-font{
     font-family: 'Grand Hotel', cursive;
 }
 
-.card-home {
+
+/* ===========  home screen styling ====== */
+
+/* .card-home {
     width: 100% !important;
+} */
+
+.card-home {
+    max-width: 500px;
+    width: auto;
+    margin: 0 auto;
 }
+
+/* ==================  Post Screen/ Each Post Styling ============== */
+
+.my-posts {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 0.2rem;
+    margin-top: -1.89rem;
+}
+
+.my-posts > img {
+    max-width: 100%;
+    max-height: 100%;
+    height: auto;
+    width: auto;
+}
+
 
 .image-card {
     width: 100%;
@@ -39,6 +98,130 @@
     height: auto;
 }
 
+.full-name {
+    margin: 0 0 0.3rem 0.3rem !important;
+}
+
+
+
+.profile-flex {
+    text-align: center;
+    display: flex;
+    margin: 1rem 0;
+    justify-content: space-around;
+    flex-wrap: wrap !important;
+}
+
+
+.post-profile-pic {
+    margin: 0.2rem 1rem;
+    border: solid 1px red;
+    border-radius: 50%;
+}
+
+.post-top-part {
+    display: flex;
+    width: 100%;
+}
+
+.post-top-more {
+    margin-left: auto;
+    margin-top: 1rem;
+    margin-right: 1rem;
+    font-size: large;
+}
+
+.post-liked-username {
+    margin: auto 0;
+}
+
+.post-comment-username {
+    margin: 0.3rem 0.5rem 0.3rem 1rem;
+    color: black;
+    overflow: hidden;
+}
+
+.comment-add {
+    margin-top: 0 !important;
+    width: 85% !important;
+    height: 1.5rem !important;
+    border-bottom: none !important;
+}
+
+.post-top-part > input:focus {
+    box-shadow: 0 1px 0 0 transparent !important;
+}
+
+
+.comment {
+    color: #444444;
+    margin: 0.3rem 0;
+}
+
+.post-comments {
+    color: #444444;
+    margin: 0.5rem 0;
+}
+
+.post-like-part {
+    color: #444444;
+}
+
+.post-username {
+    margin: auto 0;
+    color: black;
+    font-weight: 450;
+}
+
+.upload-card {
+    width: 100%;
+    margin: 0 auto;
+    padding: 1em;
+}
+
+/* =====================   Modal Styling   ====================== */
+
+#modal1 {
+    width: 100% !important;
+    min-height: 100% !important;
+    margin: 0 0px !important;
+    margin-right: 0px !important;
+    padding: 0 !important;
+}
+.modal-content {
+    max-width: 100%;
+    max-height: 100%;
+    height: auto;
+    width: auto;
+}
+
+
+/* ==============  Font Awesome Icons Styling ==============  */
+
+.fa-heart {
+    margin: 0.5rem 0.7rem;
+}
+
+.fa-comment {
+    margin: 0.5rem 0.7rem;
+}
+
+.fa-telegram-plane {
+    margin: 0.5rem 0.7rem;
+}
+
+.fa-bookmark {
+    margin: 0.5rem auto;
+    margin-left: auto;
+    margin-right: 1rem;
+}
+
+
+/* =============================================================
+                Login & Signup Screen Styling
+============================================================= */
+
+
 .card-login {
     text-align: center;
     width: 80vw;
@@ -49,10 +232,6 @@
 
 .signup-card {
     margin-top: -4% !important;
-}
-
-.text-transparent {
-    color: transparent;
 }
 
 .app-card {
@@ -90,13 +269,7 @@
     width: 40%;
 }
 
-a {
-    color: #000 !important;
-}
-
-a:hover {
-    background-color: transparent !important;
-  }
+/* =====================  Profile page Styling  ===================== */
 
 
 .hr-profile {
@@ -121,9 +294,6 @@ a:hover {
     margin: 0 0.5rem !important;
 }
 
-strong {
-    color: #000000;
-}
 
 .edit-btn {
     width: 90%;
@@ -133,137 +303,8 @@ strong {
     border: 1px solid black;
 }
 
-.full-name {
-    margin: 0 0 0.3rem 0.3rem !important;
-}
 
-.my-posts {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-gap: 0.2rem;
-    margin-top: -1.89rem;
-}
-
-.my-posts > img {
-    max-width: 100%;
-    max-height: 100%;
-    height: auto;
-    width: auto;
-}
-
-.profile-flex {
-    text-align: center;
-    display: flex;
-    margin: 1rem 0;
-    justify-content: space-around;
-    flex-wrap: wrap !important;
-}
-
-.card-home {
-    max-width: 500px;
-    width: auto;
-    margin: 0 auto;
-}
-
-.post-profile-pic {
-    margin: 0.2rem 1rem;
-    border: solid 1px red;
-    border-radius: 50%;
-}
-
-.post-top-part {
-    display: flex;
-    width: 100%;
-}
-
-.post-top-more {
-    margin-left: auto;
-    margin-top: 1rem;
-    margin-right: 1rem;
-    font-size: large;
-}
-
-.fa-heart {
-    margin: 0.5rem 0.7rem;
-}
-
-.fa-comment {
-    margin: 0.5rem 0.7rem;
-}
-
-.fa-telegram-plane {
-    margin: 0.5rem 0.7rem;
-}
-
-.fa-bookmark {
-    margin: 0.5rem auto;
-    margin-left: auto;
-    margin-right: 1rem;
-}
-
-.post-liked-username {
-    margin: auto 0;
-}
-
-.post-comment-username {
-    margin: 0.3rem 0.5rem 0.3rem 1rem;
-    color: black;
-    max-width: 15%;
-    overflow: hidden;
-}
-
-.comment-add {
-    margin-top: 0 !important;
-    width: 85% !important;
-    height: 1.5rem !important;
-    border-bottom: none !important;
-}
-
-.post-top-part > input:focus {
-    box-shadow: 0 1px 0 0 transparent !important;
-}
-
-
-.comment {
-    color: #444444;
-    margin: 0.3rem 0;
-    width: 85%;
-}
-
-.post-comments {
-    color: #444444;
-    margin: 0.5rem 0;
-}
-
-.post-like-part {
-    color: #444444;
-}
-
-.post-username {
-    margin: auto 0;
-    color: black;
-    font-weight: 450;
-}
-
-.upload-card {
-    width: 100%;
-    margin: 0 auto;
-    padding: 1em;
-}
-
-#modal1 {
-    width: 100% !important;
-    min-height: 100% !important;
-    margin: 0 0px !important;
-    margin-right: 0px !important;
-    padding: 0 !important;
-}
-.modal-content {
-    max-width: 100%;
-    max-height: 100%;
-    height: auto;
-    width: auto;
-}
+/* ======================  Larger Screen Responsive Queries ================ */
 
 @media (min-width: 500px) {
     .card-login {
