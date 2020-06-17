@@ -92,10 +92,7 @@ a:hover {
 }
 
 .image-card > img {
-    max-width: 100%;
-    max-height: 100%;
-    width: auto;
-    height: auto;
+    object-fit: cover;
 }
 
 .full-name {
@@ -279,9 +276,10 @@ a:hover {
 
 .profile-img {
     margin: 10px;
-    width: 80%;
+    width: 25vw;
+    height: 25vw;
     border: 1px solid #e0e0e0;
-    border-radius: 50%;
+    border-radius: 100%;
 }
 
 .profile-data{
@@ -312,7 +310,8 @@ a:hover {
         min-height: 6vh;
     }
     .profile-img {
-        width: 150px;
+        max-width: 15vw;
+        max-height: 15vw;
     }
 
     .profile-data {

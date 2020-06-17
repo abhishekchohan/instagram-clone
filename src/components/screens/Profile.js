@@ -7,24 +7,22 @@ import { useSelector } from 'react-redux';
 
 const Profile = () => {
     const isAuth = useSelector(state => state.isLogged);
+    const { username, dp, fullname } = useSelector(state => state.loggedUser);
     const profileData = {
-        username: "abhishek_chohan",
-        fullName: "Abhi 922",
         posts: 10,
         followers: 15,
         following: 5,
-        profilePic: "../../images/profile-pic.jpg"
     };
     return (
         isAuth ?
             <div className="profile">
                 <div className="profile-info row">
                     <div className="col s4 left">
-                        <img className="profile-img" src={require("../../images/profile-pic.jpg")} alt="profile-img" />
+                        <img className="profile-img" src={dp} alt="profile-img" />
                     </div>
                     <div className="col s8 profile-data">
                         <div className={!isMobile ? "profile-flex" : undefined} >
-                            <span className="username profile-flex-item">{profileData.username}</span>
+                            <span className="username profile-flex-item">{username}</span>
                             {
                                 isMobile ? <Link to="/Signup"><i className="fas fa-cog fa-2x"></i></Link>
                                     : <div onClick={() => M.toast({ html: 'Edit Profile Button' })} className="profile-flex-item edit-btn white">Edit Profile</div>
@@ -37,7 +35,7 @@ const Profile = () => {
                         </div>
                     </div>
                 </div>
-                <span className="full-name"><strong>{profileData.fullName}</strong></span>
+                <span className="full-name"><strong>{fullname}</strong></span>
                 <hr className="hr-profile" />
                 <div className="row center">
                     <span className="col s4"><strong>{profileData.posts}</strong><br />posts</span>

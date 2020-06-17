@@ -7,7 +7,7 @@ const Post = (props) => {
     const mydata = useSelector(state => state.loggedUser);
     const dispatch = useDispatch();
     // Destructuring the post info into apropriate labels then use them accordingly...
-    const { url, caption, _id: id, postedBy: { username }, likes, comments } = props.post;
+    const { url, caption, _id: id, postedBy: { username, dp }, likes, comments } = props.post;
     // stste management for comment form field
     const [comment, setComment] = useState("");
 
@@ -58,13 +58,15 @@ const Post = (props) => {
     return (
         <div id={id} className="card card-home" style={{ marginBottom: "1rem", padding: "0.3rem" }}>
             <div className="post-top-part">
-                <img className="post-profile-pic" width="40" height="40" src={require("../images/profile-pic.jpg")} alt="profile pic" />
+                <img className="post-profile-pic" width="40" height="40" src={dp} alt="profile pic" />
                 <h6 className="post-username"><strong>{username}</strong></h6>
                 <i className="post-top-more fas fa-ellipsis-h"></i>
             </div>
+            <hr />
             <div className="image-card center">
-                <img onDoubleClick={like} style={isMobile && { cursor: 'pointer' }} src={url} alt="img" />
+                <img onDoubleClick={like} style={isMobile && { cursor: 'pointer' }} src={url} alt="img" width="100%" />
             </div>
+            <hr />
             <div className="post-top-part">
                 {
                     // Checking whether the current user liked the post or not to display heart in red or white color
