@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { update_data } from "../components/actions";
 import isMobile from "react-device-detect";
+import { Link } from "react-router-dom";
+import M from "materialize-css";
 
 const Post = (props) => {
     const mydata = useSelector(state => state.loggedUser);
@@ -47,6 +49,29 @@ const Post = (props) => {
         const value = e.target.value;
         setComment(value);
     }
+
+    const handleDelete = e => {
+        const id = e.target.parentElement.parentElement.parentElement.id;
+        // if (!confirm("Do you really want to delete this post ?")) return;
+        if (username === mydata.username) {
+            fetch(`/${id}/delete`, {
+                method: 'get',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': "Bearer " + localStorage.getItem('jwt')
+                }
+            })
+                .then(result => result.json())
+                .then(result => dispatch(update_data()))
+                .catch(er => console.log(er))
+        }
+    }
+
+    const handleShare = e => {
+        const id = e.target.parentElement.parentElement.parentElement.id;
+        alert(id)
+    }
+
     /*
     card-home is class overriden of class card which belongs to Materialize-css
     post-top-part = Top part/bottom part of post component where we see user pic, username who posted post along with more buttons like heart, comment,etc.
@@ -58,15 +83,31 @@ const Post = (props) => {
     return (
         <div id={id} className="card card-home" style={{ marginBottom: "1rem", padding: "0.3rem" }}>
             <div className="post-top-part">
-                <img className="post-profile-pic" width="40" height="40" src={dp} alt="profile pic" />
-                <h6 className="post-username"><strong>{username}</strong></h6>
-                <i className="post-top-more fas fa-ellipsis-h"></i>
+                <Link to={`/user/${username}`}><img style={{ marginTop: '0.5rem' }} className="post-profile-pic" width="40" height="40" src={dp} alt="profile pic" /></Link>
+                <h6 className="post-username"><strong><Link to={`/user/${username}`}>{username}</Link></strong></h6>
+                {
+                    username === mydata.username ?
+                        <i onClick={(e) => M.Dropdown.init(e.target).open()} data-target='dropdown1' style={{ padding: '0.5rem 1rem' }} className="post-top-more fas fa-ellipsis-h"></i>
+                        :
+                        <i onClick={(e) => M.Dropdown.init(e.target).open()} data-target='dropdown2' style={{ padding: '0.5rem 1rem' }} className="post-top-more fas fa-ellipsis-h"></i>
+                }
+                {
+                    username === mydata.username ?
+                        <ul id='dropdown1' className='dropdown-content'>
+                            <li className="dropdown-options" onClick={handleDelete}>Delete</li>
+                            <li className="dropdown-options" onClick={handleShare}>Share</li>
+                        </ul>
+                        :
+                        <ul id='dropdown2' className='dropdown-content'>
+                            <li className="dropdown-options" onClick={handleShare}>Share</li>
+                        </ul>
+                }
             </div>
-            <hr />
+
             <div className="image-card center">
                 <img onDoubleClick={like} style={isMobile && { cursor: 'pointer' }} src={url} alt="img" width="100%" />
             </div>
-            <hr />
+
             <div className="post-top-part">
                 {
                     // Checking whether the current user liked the post or not to display heart in red or white color
@@ -74,8 +115,8 @@ const Post = (props) => {
                         <i onClick={like} className="far fa-heart fa-2x"></i> :
                         <i onClick={like} className="fa red-text fa-heart fa-2x" aria-hidden="true"></i>
                 }
-                <i className="far fa-comment fa-2x"></i>
-                <i className="fab fa-telegram-plane fa-2x"></i>
+                <Link to={`/${id}/comments`}><i className="far fa-comment fa-2x"></i></Link>
+                <i data-id={props.postId} onClick={handleDelete} className="fab fa-telegram-plane fa-2x"></i>
                 <i className="far fa-bookmark fa-2x"></i>
             </div>
             <div className="post-top-part post-like-part">
@@ -105,10 +146,10 @@ const Post = (props) => {
             }
             {
                 // text only displayed if there are more tan 1 comment or atlast 2..
-                comments.length > 1 && <div style={{ marginLeft: '1rem' }}><strong>View all comments.</strong></div>
+                comments.length > 1 && <div style={{ marginLeft: '1rem' }}><Link to={`/${id}/comments`}><strong>View all comments.</strong></Link></div>
             }
             <div className="post-top-part post-comments">
-                <img className="post-profile-pic" width="18" height="18" src={require("../images/profile-pic.jpg")} alt="profile pic" />
+                <img className="post-profile-pic" width="18" height="18" src={mydata.dp} alt="profile pic" />
                 <form className="comment-add" onSubmit={postcomment}>
                     <input className="comment-add" placeholder="Add a comment"
                         type="text" name="comment" value={comment} onChange={handleComment} autoComplete="off" spellCheck={false} />

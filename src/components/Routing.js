@@ -7,6 +7,7 @@ import Home from '../components/screens/Home';
 import Profile from '../components/screens/Profile';
 import Login from '../components/screens/Login';
 import Signup from '../components/screens/Signup';
+import Comments from './smallComponents/Comments';
 
 
 const Routing = () => {
@@ -53,6 +54,11 @@ const Routing = () => {
             {
                 isAuth && <Route exact path="/" >
                     <Home />
+                </Route>
+            }
+            {
+                isAuth && <Route path="/:postId/comments" >
+                    <Comments />
                 </Route>
             }
             {

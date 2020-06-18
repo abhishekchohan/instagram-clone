@@ -7,6 +7,7 @@
     "ismobilejs": "^1.1.1",
     "materialize-css": "^1.0.0-rc.2",
     "react": "^16.13.1",
+    "react-device-detect": "^1.13.1",
     "react-dom": "^16.13.1",
     "react-image-crop": "^8.6.4",
     "react-redux": "^7.2.0",

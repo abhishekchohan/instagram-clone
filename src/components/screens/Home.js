@@ -45,7 +45,7 @@ const Home = () => {
                     <CreatePost />
                     { // mapping through the post state array to display all the posts on home page..
                         posts.map(post => {
-                            return <Post key={post._id} post={post} />
+                            return <Post key={post._id} postId={post._id} post={post} />
                         })
                     }
                 </div>

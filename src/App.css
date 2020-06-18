@@ -176,6 +176,12 @@ a:hover {
     padding: 1em;
 }
 
+.dropdown-options{
+    padding: 1.1rem;
+    font-size: large;
+    padding-right: auto;
+}
+
 /* =====================   Modal Styling   ====================== */
 
 #modal1 {
