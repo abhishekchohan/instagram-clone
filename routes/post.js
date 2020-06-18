@@ -7,7 +7,7 @@ const isLogged = require('../middlewares/isLogged');
 router.get('/allposts', isLogged, (req, res) => {
     Post.find()
         .sort({ postedTime: -1 })
-        .populate("postedBy", "_id username")
+        .populate("postedBy", "_id username dp")
         .populate("likes", "_id username")
         .populate('comments.by', "_id username")
         .exec()
@@ -21,6 +21,22 @@ router.get('/allposts', isLogged, (req, res) => {
 router.post('/', isLogged, (req, res) => {
     res.json({ isLogged: true, user: req.user })
 });
+
+
+router.get('/:postId/comments', isLogged, (req, res) => {
+    Post.findById(req.params.postId, 'comments')
+        .populate("comments.by", "username dp _id")
+        .exec()
+        .then(comments => {
+            if (comments) {
+                res.json({ comments });
+            } else {
+                res.json({ error: "no comments" });
+            }
+        })
+        .catch(er => console.log(er))
+})
+
 
 // This route is for Like button functionality..
 router.post('/like', isLogged, (req, res) => {
@@ -76,6 +92,14 @@ router.get('/myposts', isLogged, (req, res) => {
         .populate("postedBy", "_id username")
         .then(myposts => {
             res.json({ myposts })
+        })
+        .catch(err => console.log(err));
+});
+
+router.get('/:postId/delete', isLogged, (req, res) => {
+    Post.findByIdAndDelete(req.params.postId)
+        .then(result => {
+            res.json({ result })
         })
         .catch(err => console.log(err));
 });
