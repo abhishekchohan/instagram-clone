@@ -6,8 +6,19 @@ const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
 const isLogged = require('../middlewares/isLogged');
 
-router.get('/protected', isLogged, (req, res) => {
-    res.send("hello user");
+router.get('/user/:username', isLogged, (req, res) => {
+    User.findOne({ username: req.params.username })
+        .populate("posts", "url _id")
+        .exec()
+        .then((foundUser) => {
+            if (!foundUser) {
+                return res.status(422).json({ error: "Invalid Username" })
+            } else {
+                foundUser.password = undefined;
+                res.json({ user: foundUser })
+            }
+        })
+        .catch(er => console.log(er))
 });
 
 router.post('/signup', (req, res) => {
@@ -45,6 +56,8 @@ router.post('/signin', (req, res) => {
         return res.status(422).json({ error: "Please enter all fields." })
     }
     User.findOne({ email: email })
+        .populate("posts", "url _id")
+        .exec()
         .then(foundUser => {
             if (!foundUser) {
                 return res.status(422).json({ error: "Invalid email or password." })

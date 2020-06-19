@@ -15,6 +15,8 @@ module.exports = (req, res, next) => {
         }
         const { _id } = payload;
         User.findById(_id)
+            .populate("posts", "url _id")
+            .exec()
             .then(userdata => {
                 req.user = userdata;
                 next();

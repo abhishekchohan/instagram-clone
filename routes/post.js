@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const Post = mongoose.model("Post");
+const User = mongoose.model("User");
 const isLogged = require('../middlewares/isLogged');
 
 router.get('/allposts', isLogged, (req, res) => {
@@ -81,7 +82,10 @@ router.post('/createpost', isLogged, (req, res) => {
         postedBy: req.user
     })
     post.save()
-        .then(result => res.json({ post: result, message: "Post created successfully." }))
+        .then(result => {
+            User.updateOne({ _id: req.user._id }, { $push: { posts: result._id } }).exec();
+            res.json({ post: result, message: "Post created successfully." })
+        })
         .catch(err => console.log(err))
 })
 
