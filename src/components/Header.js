@@ -8,6 +8,7 @@ const Header = () => {
     // isAuth is state for user to be logged in or not.
     // dispatch and history are initialised for using them later to set state and redirect respectively.
     const isAuth = useSelector(state => state.isLogged);
+    const { username } = useSelector(state => state.loggedUser) || "username";
     const dispatch = useDispatch();
     const history = useHistory();
 
@@ -28,7 +29,7 @@ const Header = () => {
                     isAuth ? // after login links..
                         <>
                             <li><Link to="/"><i className="fas fa-home-lg-alt"></i></Link></li>
-                            <li><Link to="/profile"><i className="fas fa-2x fa-user-circle"></i></Link></li>
+                            <li><Link to={`/user/${username}`}><i className="fas fa-2x fa-user-circle"></i></Link></li>
                             <li onClick={logout}><Link to=""><i className="fas fa-2x fa-sign-out-alt"></i></Link></li>
 
                         </>

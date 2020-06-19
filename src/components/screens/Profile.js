@@ -1,24 +1,41 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useParams, useHistory } from "react-router-dom";
 import { isMobile } from "react-device-detect";
 import M from "materialize-css";
 import { useSelector } from 'react-redux';
 
 
 const Profile = () => {
+    const { username } = useParams();
+    const history = useHistory();
     const isAuth = useSelector(state => state.isLogged);
-    const { username, dp, fullname } = useSelector(state => state.loggedUser);
-    const profileData = {
-        posts: 10,
-        followers: 15,
-        following: 5,
-    };
+    const [userData, setUserData] = useState(null);
+    useEffect(() => {
+        fetch(`/user/${username}`, {
+            method: 'get',
+            headers: {
+                "Content-Type": "application/json",
+                "authorization": "Bearer " + localStorage.getItem('jwt')
+            }
+        })
+            .then(result => result.json())
+            .then(result => {
+                if (result.user) {
+                    setUserData(result.user);
+                }
+                else {
+                    history.goBack();
+                }
+            })
+            .catch(er => console.log(er))
+        //eslint-disable-next-line
+    }, [])
     return (
-        isAuth ?
-            <div className="profile">
+        isAuth && userData ?
+            <div className="profile card-home home">
                 <div className="profile-info row">
                     <div className="col s4 left">
-                        <img className="profile-img" src={dp} alt="profile-img" />
+                        <img className="profile-img" src={userData.dp || require('../../images/profile-pic.jpg')} alt="profile-img" />
                     </div>
                     <div className="col s8 profile-data">
                         <div className={!isMobile ? "profile-flex" : undefined} >
@@ -35,18 +52,20 @@ const Profile = () => {
                         </div>
                     </div>
                 </div>
-                <span className="full-name"><strong>{fullname}</strong></span>
+                <span className="full-name"><strong>{userData.fullname}</strong></span>
                 <hr className="hr-profile" />
                 <div className="row center">
-                    <span className="col s4"><strong>{profileData.posts}</strong><br />posts</span>
-                    <span className="col s4"><strong>{profileData.followers}</strong><br />followers</span>
-                    <span className="col s4"><strong>{profileData.following}</strong><br />following</span>
+                    <span className="col s4"><strong>{userData.posts.length}</strong><br />posts</span>
+                    <span className="col s4"><strong>{userData.followers.length}</strong><br />followers</span>
+                    <span className="col s4"><strong>{userData.following.length}</strong><br />following</span>
                 </div>
                 <hr className="hr-profile" />
                 <div className="my-posts">
-                    <img className="img-posts" src={require('../../images/posts.jpg')} alt="posts" />
-                    <img className="img-posts" src={require('../../images/posts.jpg')} alt="posts" />
-                    <img className="img-posts" src={require('../../images/posts.jpg')} alt="posts" />
+                    {
+                        userData.posts.map(post => {
+                            return <img key={post._id + Math.random()} style={{ width: '100%', height: '10rem' }} src={post.url} alt="posts" />
+                        })
+                    }
                 </div>
             </div>
             :

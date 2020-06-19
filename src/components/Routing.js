@@ -47,7 +47,7 @@ const Routing = () => {
             {
                 // all the routes except signup route, when user is not logged in, will redirect to login route.
                 // When the user is logged in then all the inactive routes will redirect to home route.
-                isAuth && <Route path="/profile" >
+                isAuth && <Route path="/user/:username" >
                     <Profile />
                 </Route>
             }

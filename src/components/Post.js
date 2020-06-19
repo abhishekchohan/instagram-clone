@@ -83,7 +83,7 @@ const Post = (props) => {
     return (
         <div id={id} className="card card-home" style={{ marginBottom: "1rem", padding: "0.3rem" }}>
             <div className="post-top-part">
-                <Link to={`/user/${username}`}><img style={{ marginTop: '0.5rem' }} className="post-profile-pic" width="40" height="40" src={dp} alt="profile pic" /></Link>
+                <Link to={`/user/${username}`}><img style={{ marginTop: '0.5rem' }} className="post-profile-pic" width="40" height="40" src={dp || require('../images/profile-pic.jpg')} alt="profile pic" /></Link>
                 <h6 className="post-username"><strong><Link to={`/user/${username}`}>{username}</Link></strong></h6>
                 {
                     username === mydata.username ?
@@ -123,8 +123,11 @@ const Post = (props) => {
                 <span style={{ marginLeft: "1rem" }}></span>
                 <h6 className="post-liked-username">
                     {
+                        console.log(likes)
+                    }
+                    {
                         // Liked by bla bla and others ... conditions
-                        likes.length === 0 ? null : (likes.length === 1 ? <>Liked by <strong>{likes[0].username}</strong></> : likes.length === 2 ? <>Liked by <strong>{likes[0].username}</strong> and <strong>{likes[1].username}</strong></> : <>Liked by <strong>{likes[0].username}</strong> and <strong>{likes.length - 1}</strong> others</>)
+                        likes.length === 0 ? null : (likes.length === 1 ? <>Liked by <Link to={`/user/${likes[0].username}`} ><strong>{likes[0].username}</strong></Link></> : likes.length === 2 ? <>Liked by <Link to={`/user/${likes[0].username}`} ><strong>{likes[0].username}</strong></Link> and <Link to={`/user/${likes[1].username}`} ><strong>{likes[1].username}</strong></Link></> : <>Liked by <strong>{likes[0].username}</strong> and <strong>{likes.length - 1}</strong> others</>)
                     }</h6>
             </div>
             {
@@ -149,7 +152,7 @@ const Post = (props) => {
                 comments.length > 1 && <div style={{ marginLeft: '1rem' }}><Link to={`/${id}/comments`}><strong>View all comments.</strong></Link></div>
             }
             <div className="post-top-part post-comments">
-                <img className="post-profile-pic" width="18" height="18" src={mydata.dp} alt="profile pic" />
+                <img className="post-profile-pic" width="18" height="18" src={mydata.dp || require('../images/profile-pic.jpg')} alt="profile pic" />
                 <form className="comment-add" onSubmit={postcomment}>
                     <input className="comment-add" placeholder="Add a comment"
                         type="text" name="comment" value={comment} onChange={handleComment} autoComplete="off" spellCheck={false} />

@@ -64,7 +64,7 @@ const Comments = () => {
                                     // using random to generate a random key for each comment
                                     return <div key={each._id} className="post-top-part post-comments" style={{ margin: '1rem' }}>
                                         <Link to={`/user/${each.by.username}`} >
-                                            <img style={{ marginTop: '-5px', marginRight: '-5px' }} className="post-profile-pic" width="35" height="35" src={each.by.dp} alt="profile pic" />
+                                            <img style={{ marginTop: '-5px', marginRight: '-5px' }} className="post-profile-pic" width="35" height="35" src={each.by.dp || require('../../images/profile-pic.jpg')} alt="profile pic" />
                                         </Link>
                                         <h6 className="post-comment-username"><Link to={`/user/${each.by.username}`} ><strong>{each.by.username}</strong></Link></h6>
                                         <h6 className="comment">{each.comment} </h6>
@@ -73,7 +73,7 @@ const Comments = () => {
                             }
                         </div>
                         <div className="post-top-part post-comments" style={{ position: 'absolute', bottom: 10 }}>
-                            <Link to={`/user/${username}`} ><img style={{ marginTop: '-5px', marginLeft: '2rem' }} className="post-profile-pic" width="35" height="35" src={dp} alt="profile pic" /></Link>
+                            <Link to={`/user/${username}`} ><img style={{ marginTop: '-5px', marginLeft: '2rem' }} className="post-profile-pic" width="35" height="35" src={dp || require('../../images/profile-pic.jpg')} alt="profile pic" /></Link>
                             <form className="comment-add" onSubmit={postcomment}>
                                 <input className="comment-add" placeholder="Add a comment"
                                     type="text" name="comment" value={comment} onChange={handleComment} autoComplete="off" spellCheck={false} />
