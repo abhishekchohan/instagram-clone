@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams, useHistory } from "react-router-dom";
-import { isMobile } from "react-device-detect";
 import M from "materialize-css";
 import { useSelector } from 'react-redux';
 
@@ -24,7 +23,7 @@ const Profile = () => {
                     setUserData(result.user);
                 }
                 else {
-                    history.goBack();
+                    history.push('/');
                 }
             })
             .catch(er => console.log(er))
@@ -38,21 +37,17 @@ const Profile = () => {
                         <img className="profile-img" src={userData.dp || require('../../images/profile-pic.jpg')} alt="profile-img" />
                     </div>
                     <div className="col s8 profile-data">
-                        <div className={!isMobile ? "profile-flex" : undefined} >
+                        <div className={"profile-flex"} >
                             <span className="username profile-flex-item">{username}</span>
-                            {
-                                isMobile ? <Link to="/Signup"><i className="fas fa-cog fa-2x"></i></Link>
-                                    : <div onClick={() => M.toast({ html: 'Edit Profile Button' })} className="profile-flex-item edit-btn white">Edit Profile</div>
-                            }
-
-                            {
-                                isMobile ? <div><br /><div onClick={() => M.toast({ html: 'Edit Profile Button' })} className="edit-btn white">Edit Profile</div></div>
-                                    : <Link className="flex-settings" to="/createpost"><i className="profile-flex-item fas fa-cog fa-2x"></i></Link>
-                            }
+                            <div onClick={() => M.toast({ html: 'Edit Profile Button' })} className="profile-flex-item edit-btn white">Edit Profile</div>
+                            <Link className="flex-settings" to="/createpost"><i className="profile-flex-item fas fa-cog fa-2x"></i></Link>
                         </div>
                     </div>
                 </div>
-                <span className="full-name"><strong>{userData.fullname}</strong></span>
+                <span className="full-name"><strong>{userData.fullname}</strong></span><br /><br />
+                {
+                    <div className="btn blue" style={{ width: '100%', marginRight: '3rem', marginLeft: 'auto', borderRadius: '0.3rem' }}><strong className="white-text">Follow</strong></div>
+                }
                 <hr className="hr-profile" />
                 <div className="row center">
                     <span className="col s4"><strong>{userData.posts.length}</strong><br />posts</span>
@@ -63,7 +58,7 @@ const Profile = () => {
                 <div className="my-posts">
                     {
                         userData.posts.map(post => {
-                            return <img key={post._id + Math.random()} style={{ width: '100%', height: '10rem' }} src={post.url} alt="posts" />
+                            return <img key={post._id + Math.random()} style={{ width: '100%', height: '8rem' }} src={post.url} alt="posts" />
                         })
                     }
                 </div>

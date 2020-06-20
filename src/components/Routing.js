@@ -8,6 +8,7 @@ import Profile from '../components/screens/Profile';
 import Login from '../components/screens/Login';
 import Signup from '../components/screens/Signup';
 import Comments from './smallComponents/Comments';
+import Likes from './smallComponents/Likes';
 
 
 const Routing = () => {
@@ -59,6 +60,11 @@ const Routing = () => {
             {
                 isAuth && <Route path="/:postId/comments" >
                     <Comments />
+                </Route>
+            }
+            {
+                isAuth && <Route path="/:postId/likes" >
+                    <Likes />
                 </Route>
             }
             {

@@ -75,7 +75,6 @@ a:hover {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 0.2rem;
-    margin-top: -1.89rem;
 }
 
 .my-posts > img {
@@ -102,7 +101,6 @@ a:hover {
 
 
 .profile-flex {
-    text-align: center;
     display: flex;
     margin: 1rem 0;
     justify-content: space-around;
@@ -281,9 +279,8 @@ a:hover {
 }
 
 .profile-img {
-    margin: 10px;
-    width: 25vw;
-    height: 25vw;
+    width: 10rem;
+    height: 10rem;
     border: 1px solid #e0e0e0;
     border-radius: 100%;
 }
@@ -315,11 +312,6 @@ a:hover {
         width: 400px;
         min-height: 6vh;
     }
-    .profile-img {
-        max-width: 15vw;
-        max-height: 15vw;
-    }
-
     .profile-data {
         padding: 0 0 0 6rem !important;
     }

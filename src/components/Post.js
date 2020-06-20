@@ -123,18 +123,15 @@ const Post = (props) => {
                 <span style={{ marginLeft: "1rem" }}></span>
                 <h6 className="post-liked-username">
                     {
-                        console.log(likes)
-                    }
-                    {
                         // Liked by bla bla and others ... conditions
-                        likes.length === 0 ? null : (likes.length === 1 ? <>Liked by <Link to={`/user/${likes[0].username}`} ><strong>{likes[0].username}</strong></Link></> : likes.length === 2 ? <>Liked by <Link to={`/user/${likes[0].username}`} ><strong>{likes[0].username}</strong></Link> and <Link to={`/user/${likes[1].username}`} ><strong>{likes[1].username}</strong></Link></> : <>Liked by <strong>{likes[0].username}</strong> and <strong>{likes.length - 1}</strong> others</>)
+                        likes.length === 0 ? null : (likes.length === 1 ? <>Liked by <Link to={`/user/${likes[0].username}`} ><strong>{likes[0].username}</strong></Link></> : likes.length === 2 ? <>Liked by <Link to={`/user/${likes[0].username}`} ><strong>{likes[0].username}</strong></Link> and <Link to={`/user/${likes[1].username}`} ><strong>{likes[1].username}</strong></Link></> : <>Liked by <Link to={`/user/${likes[0].username}`} ><strong>{likes[0].username}</strong></Link> and <Link to={`/user/${likes[1].username}`} ></Link> <Link to={`/${id}/likes`} ><strong>{likes.length - 1} others</strong></Link></>)
                     }</h6>
             </div>
             {
                 // caption and username // kind of comment but part of post
             }
             <div className="post-top-part post-comments">
-                <h6 className="post-comment-username"><strong>{username}</strong></h6>
+                <h6 className="post-comment-username"><Link to={`/user/${username}`}><strong>{username}</strong></Link></h6>
                 <h6 className="comment">{caption}</h6>
             </div>
             {
@@ -142,7 +139,7 @@ const Post = (props) => {
                 comments.slice(-1, comments.length).map(each => {
                     // using random to generate a random key for each comment
                     return <div key={each.by._id + Math.random()} className="post-top-part post-comments">
-                        <h6 className="post-comment-username"><strong>{each.by.username}</strong></h6>
+                        <h6 className="post-comment-username"> <Link to={`/user/${each.by.username}`}><strong>{each.by.username}</strong></Link></h6>
                         <h6 className="comment">{each.comment} </h6>
                     </div>
                 })
