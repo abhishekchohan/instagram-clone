@@ -38,6 +38,20 @@ router.get('/:postId/comments', isLogged, (req, res) => {
         .catch(er => console.log(er))
 })
 
+router.get('/:postId/likes', isLogged, (req, res) => {
+    Post.findById(req.params.postId, 'likes')
+        .populate("likes", "username dp _id fullname")
+        .exec()
+        .then(likes => {
+            if (likes) {
+                res.json({ likes });
+            } else {
+                res.json({ error: "no comments" });
+            }
+        })
+        .catch(er => console.log(er))
+})
+
 
 // This route is for Like button functionality..
 router.post('/like', isLogged, (req, res) => {
