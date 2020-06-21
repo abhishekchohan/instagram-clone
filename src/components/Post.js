@@ -9,7 +9,7 @@ const Post = (props) => {
     const mydata = useSelector(state => state.loggedUser);
     const dispatch = useDispatch();
     // Destructuring the post info into apropriate labels then use them accordingly...
-    const { url, caption, _id: id, postedBy: { username, dp }, likes, comments } = props.post;
+    const { url, caption, _id: id, postedBy: { _id: postedId, username, dp }, likes, comments } = props.post;
     // stste management for comment form field
     const [comment, setComment] = useState("");
 
@@ -69,7 +69,9 @@ const Post = (props) => {
 
     const handleShare = e => {
         const id = e.target.parentElement.parentElement.parentElement.id;
-        alert(id)
+        const username = e.target.parentElement.parentElement.parentElement.dataset.username;
+        let link = String(window.location).split('/', 3);
+        alert(`Share with your friends -> ${link[0]}//${link[2]}/${username}/${id}`);
     }
 
     /*
@@ -81,7 +83,7 @@ const Post = (props) => {
     post-comments  -> its a small flex box with 2 elements only and has been used numerous times for different purposes.
     */
     return (
-        <div id={id} className="card card-home" style={{ marginBottom: "1rem", padding: "0.3rem" }}>
+        <div id={id} data-username={postedId} className="card card-home" style={{ marginBottom: "1rem", padding: "0.3rem" }}>
             <div className="post-top-part">
                 <Link to={`/user/${username}`}><img style={{ marginTop: '0.5rem' }} className="post-profile-pic" width="40" height="40" src={dp || require('../images/profile-pic.jpg')} alt="profile pic" /></Link>
                 <h6 className="post-username"><strong><Link to={`/user/${username}`}>{username}</Link></strong></h6>

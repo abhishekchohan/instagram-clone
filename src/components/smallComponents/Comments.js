@@ -8,7 +8,7 @@ const Comments = () => {
     const [comments, setComments] = useState(null);
     const history = useHistory();
     const [comment, setComment] = useState("");
-    const [update, setUpdate] = useState();
+    const [update, setUpdate] = useState(false);
     const { dp, username } = useSelector(state => state.loggedUser);
     useEffect(() => {
         fetch(`/${postId}/comments`, {
@@ -20,7 +20,10 @@ const Comments = () => {
         })
             .then(resp => resp.json())
             .then(result => {
-                setComments(result.comments.comments);
+                console.log(result);
+                if (!result.error) {
+                    setComments(result.comments.comments);
+                }
             })
             .catch(er => console.log(er))
         //eslint-disable-next-line
@@ -37,7 +40,7 @@ const Comments = () => {
             body: JSON.stringify({ postId, comment })
         })
             .then(data => data.json())
-            .then(data => setUpdate(true))
+            .then(data => setUpdate(prev => !prev))
             .catch(er => console.log(er));
         setComment("");
     }
@@ -48,21 +51,21 @@ const Comments = () => {
         setComment(value);
     }
     return (
-        <div className="home card card-home" style={{ marginTop: '5rem', marginBottom: "1rem", padding: "0.3rem", minHeight: '75vh' }}>
+        <div className="card card-home" style={{ minHeight: '65vh', height: 'auto' }}>
             {
                 comments && (
-                    <div>
+                    <div style={{ position: 'relative', paddingBottom: '5rem' }}>
                         <div className="post-top-part">
                             <i onClick={history.goBack} style={{ marginTop: '0.4rem' }} className="fas fa-chevron-left fa-2x"></i>
                             <i style={{ marginLeft: 'auto' }} className="fa-2x">Comments</i>
                             <i style={{ marginLeft: 'auto' }} className="fab fa-telegram-plane fa-2x"></i>
                         </div>
                         <hr />
-                        <div style={{ position: 'relative', marginBottom: '4rem' }}>
+                        <div style={{ position: 'relative', minHeight: '50vh', marginBottom: '1rem' }}>
                             {
                                 comments.map(each => {
                                     // using random to generate a random key for each comment
-                                    return <div key={each._id} className="post-top-part post-comments" style={{ margin: '1rem' }}>
+                                    return <div key={each._id} className="post-top-part post-comments" style={{ padding: '5px' }}>
                                         <Link to={`/user/${each.by.username}`} >
                                             <img style={{ marginTop: '-5px', marginRight: '-5px' }} className="post-profile-pic" width="35" height="35" src={each.by.dp || require('../../images/profile-pic.jpg')} alt="profile pic" />
                                         </Link>

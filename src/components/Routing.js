@@ -8,7 +8,9 @@ import Profile from '../components/screens/Profile';
 import Login from '../components/screens/Login';
 import Signup from '../components/screens/Signup';
 import Comments from './smallComponents/Comments';
-import Likes from './smallComponents/Likes';
+import LikesFollowingFollowers from './smallComponents/LikesFollowingFollowers';
+import EditProfile from './smallComponents/EditProfile';
+import ProfilePhoto from './smallComponents/ProfilePhoto';
 
 
 const Routing = () => {
@@ -58,13 +60,33 @@ const Routing = () => {
                 </Route>
             }
             {
+                isAuth && <Route exact path="/updateProfilePhoto" >
+                    <ProfilePhoto />
+                </Route>
+            }
+            {
                 isAuth && <Route path="/:postId/comments" >
                     <Comments />
                 </Route>
             }
             {
                 isAuth && <Route path="/:postId/likes" >
-                    <Likes />
+                    <LikesFollowingFollowers />
+                </Route>
+            }
+            {
+                isAuth && <Route path="/profile/edit" >
+                    <EditProfile />
+                </Route>
+            }
+            {
+                isAuth && <Route path="/:id/:postId" >
+                    <Home />
+                </Route>
+            }
+            {
+                isAuth && <Route path="/:userId/:task" >
+                    <LikesFollowingFollowers />
                 </Route>
             }
             {
