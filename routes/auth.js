@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
 const isLogged = require('../middlewares/isLogged');
 
-router.get('/user/:username', isLogged, (req, res) => {
+router.post('/user/:username', isLogged, (req, res) => {
     User.findOne({ username: req.params.username })
         .populate("posts", "url _id")
         .exec()
@@ -19,6 +19,65 @@ router.get('/user/:username', isLogged, (req, res) => {
             }
         })
         .catch(er => console.log(er))
+});
+
+router.post('/updateUser', isLogged, (req, res) => {
+    const { username, email, fullname } = req.body.data;
+    if (!email || !username || !fullname) {
+        return res.status(422).json({ error: "PLease enter all fields." })
+    }
+    User.updateOne({ _id: req.body.id }, { username, email, fullname }).exec()
+        .then((result) => {
+            if (!result) {
+                return res.status(422).json({ error: "Invalid Username" })
+            } else {
+                User.findById({ _id: req.body.id })
+                    .populate("posts", "url _id")
+                    .exec()
+                    .then(foundUser => {
+                        if (foundUser) {
+                            foundUser.password = undefined;
+                            res.json({ user: foundUser })
+                        }
+                    })
+                    .catch(er => console.log(er))
+            }
+        })
+        .catch(er => console.log(er))
+});
+
+
+router.post('/updateProfilePhoto', isLogged, (req, res) => {
+    User.findOne({ username: req.body.username })
+        .then((foundUser) => {
+            if (!foundUser) {
+                return res.status(422).json({ error: "Invalid Username" })
+            } else {
+                User.updateOne({ username: req.body.username }, { dp: req.body.dp }).exec();
+            }
+        })
+        .catch(er => console.log(er));
+
+    res.json({ message: "task completed." });
+});
+
+router.post('/user/:username/follow', isLogged, (req, res) => {
+    User.findOne({ username: req.params.username })
+        .then((foundUser) => {
+            if (!foundUser) {
+                return res.status(422).json({ error: "Invalid Username" })
+            } else {
+                if (foundUser.followers.find(followerId => followerId.equals(req.user._id))) {
+                    User.updateOne({ username: req.params.username }, { $pull: { followers: req.user._id } }).exec();
+                    User.updateOne({ username: req.user.username }, { $pull: { following: foundUser._id } }).exec();
+                } else {
+                    User.updateOne({ username: req.params.username }, { $push: { followers: req.user._id } }).exec();
+                    User.updateOne({ username: req.user.username }, { $push: { following: foundUser._id } }).exec();
+                }
+            }
+        })
+        .catch(er => console.log(er));
+    res.json({ message: "task completed." });
 });
 
 router.post('/signup', (req, res) => {
@@ -75,5 +134,19 @@ router.post('/signin', (req, res) => {
         })
         .catch(err => console.log(err));
 });
+
+router.get('/followersOrFollowings/:userId/:task', isLogged, (req, res) => {
+    User.findById(req.params.userId, req.params.task)
+        .populate(req.params.task, "username dp _id fullname followers")
+        .exec()
+        .then(task => {
+            if (task) {
+                res.json({ [req.params.task]: task });
+            } else {
+                res.json({ error: "no comments" });
+            }
+        })
+        .catch(er => console.log(er))
+})
 
 module.exports = router;

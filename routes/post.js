@@ -5,6 +5,12 @@ const Post = mongoose.model("Post");
 const User = mongoose.model("User");
 const isLogged = require('../middlewares/isLogged');
 
+
+// This one is just to validate user authentification..
+router.post('/', isLogged, (req, res) => {
+    res.json({ isLogged: true, user: req.user })
+});
+
 router.get('/allposts', isLogged, (req, res) => {
     Post.find()
         .sort({ postedTime: -1 })
@@ -17,40 +23,6 @@ router.get('/allposts', isLogged, (req, res) => {
         })
         .catch(err => console.log(err));
 });
-
-// This one is just to validate user authentification..
-router.post('/', isLogged, (req, res) => {
-    res.json({ isLogged: true, user: req.user })
-});
-
-
-router.get('/:postId/comments', isLogged, (req, res) => {
-    Post.findById(req.params.postId, 'comments')
-        .populate("comments.by", "username dp _id")
-        .exec()
-        .then(comments => {
-            if (comments) {
-                res.json({ comments });
-            } else {
-                res.json({ error: "no comments" });
-            }
-        })
-        .catch(er => console.log(er))
-})
-
-router.get('/:postId/likes', isLogged, (req, res) => {
-    Post.findById(req.params.postId, 'likes')
-        .populate("likes", "username dp _id fullname")
-        .exec()
-        .then(likes => {
-            if (likes) {
-                res.json({ likes });
-            } else {
-                res.json({ error: "no comments" });
-            }
-        })
-        .catch(er => console.log(er))
-})
 
 
 // This route is for Like button functionality..
@@ -103,21 +75,51 @@ router.post('/createpost', isLogged, (req, res) => {
         .catch(err => console.log(err))
 })
 
-
-// This route will provide specific user's all posts
-router.get('/myposts', isLogged, (req, res) => {
-    Post.find({ postedBy: req.user._id })
-        .populate("postedBy", "_id username")
-        .then(myposts => {
-            res.json({ myposts })
+router.get('/:postId/comments', isLogged, (req, res) => {
+    Post.findById(req.params.postId, 'comments')
+        .populate("comments.by", "username dp _id")
+        .exec()
+        .then(comments => {
+            if (comments) {
+                res.json({ comments });
+            } else {
+                res.json({ error: "no comments" });
+            }
         })
-        .catch(err => console.log(err));
-});
+        .catch(er => console.log(er))
+})
+
+router.get('/:postId/likes', isLogged, (req, res) => {
+    Post.findById(req.params.postId, 'likes')
+        .populate("likes", "username dp _id fullname followers")
+        .exec()
+        .then(likes => {
+            if (likes) {
+                res.json({ likes });
+            } else {
+                res.json({ error: "no comments" });
+            }
+        })
+        .catch(er => console.log(er))
+})
 
 router.get('/:postId/delete', isLogged, (req, res) => {
     Post.findByIdAndDelete(req.params.postId)
         .then(result => {
             res.json({ result })
+        })
+        .catch(err => console.log(err));
+});
+
+router.post('/user/:id/posts', isLogged, (req, res) => {
+    Post.find({ postedBy: req.params.id })
+        .sort({ postedTime: -1 })
+        .populate("postedBy", "_id username dp")
+        .populate("likes", "_id username")
+        .populate('comments.by', "_id username")
+        .exec()
+        .then(posts => {
+            res.json({ posts })
         })
         .catch(err => console.log(err));
 });
