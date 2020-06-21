@@ -20,7 +20,6 @@ const LikesFollowingFollowers = () => {
         })
             .then(resp => resp.json())
             .then(result => {
-                console.log(result);
                 if (result.likes) {
                     setData(result.likes.likes);
                 } else if (result.followers) {
@@ -69,7 +68,7 @@ const LikesFollowingFollowers = () => {
                                         <img style={{ marginTop: '-5px', marginRight: '-5px' }} className="post-profile-pic" width="50" height="50" src={each.dp || require('../../images/profile-pic.jpg')} alt="." />
                                     </Link>
                                     <Link to={`/user/${each.username}`} ><div style={{ marginTop: '-0.4rem', Width: '50%' }}>
-                                        <h6 className="post-comment-username" style={{ height: '1rem', overflowY: 'hidden' }}><strong>{each.username}</strong></h6>
+                                        <h6 className="post-comment-username"><strong>{each.username}</strong></h6>
                                         <h6 className="post-comment-username">{each.fullname}</h6>
                                     </div></Link>
                                     {

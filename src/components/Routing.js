@@ -15,6 +15,7 @@ import ProfilePhoto from './smallComponents/ProfilePhoto';
 
 const Routing = () => {
     const isAuth = useSelector(state => state.isLogged);
+    const isUpdate = useSelector(state => state.isUpdate);
     const dispatch = useDispatch();
     // first thing that will run and identify if user has a session saved or not..
     useEffect(() => {
@@ -43,7 +44,7 @@ const Routing = () => {
                 }).catch(er => console.log(er));
         })
         // eslint-disable-next-line
-    }, []);
+    }, [isUpdate]);
     return (
 
         < Switch >
@@ -56,6 +57,11 @@ const Routing = () => {
             }
             {
                 isAuth && <Route exact path="/" >
+                    <Home />
+                </Route>
+            }
+            {
+                isAuth && <Route exact path="/myCollection/:postId" >
                     <Home />
                 </Route>
             }
@@ -80,13 +86,13 @@ const Routing = () => {
                 </Route>
             }
             {
-                isAuth && <Route path="/:id/:postId" >
-                    <Home />
+                isAuth && <Route path="/followering/:userId/:task" >
+                    <LikesFollowingFollowers />
                 </Route>
             }
             {
-                isAuth && <Route path="/:userId/:task" >
-                    <LikesFollowingFollowers />
+                isAuth && <Route path="/:id/:postId" >
+                    <Home />
                 </Route>
             }
             {

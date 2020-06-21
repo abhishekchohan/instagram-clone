@@ -20,7 +20,6 @@ const Comments = () => {
         })
             .then(resp => resp.json())
             .then(result => {
-                console.log(result);
                 if (!result.error) {
                     setComments(result.comments.comments);
                 }

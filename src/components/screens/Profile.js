@@ -10,8 +10,10 @@ const Profile = () => {
     const loggedUser = useSelector(state => state.loggedUser);
     const [userData, setUserData] = useState(null);
     const [follow, setFollow] = useState(false);
+    const [favPosts, setFavPosts] = useState(false);
+    let count = 0;
     useEffect(() => {
-        fetch(`/user/${username}`, {
+        fetch((favPosts) ? `/retrieve/favposts` : `/user/${username}`, {
             method: 'post',
             headers: {
                 "Content-Type": "application/json",
@@ -29,7 +31,7 @@ const Profile = () => {
             })
             .catch(er => console.log(er))
         //eslint-disable-next-line
-    }, [follow])
+    }, [follow, favPosts])
     const handleFollow = () => {
         fetch(`/user/${username}/follow`, {
             method: 'post',
@@ -56,8 +58,6 @@ const Profile = () => {
                     <div className="col s8 profile-data">
                         <div className={"profile-flex"} >
                             <span className="username profile-flex-item">{username}</span>
-
-                            <Link className="flex-settings" to="/createpost"><i className="profile-flex-item fas fa-cog fa-2x"></i></Link>
                         </div>
                     </div>
                 </div>
@@ -68,18 +68,25 @@ const Profile = () => {
                         :
                         < div onClick={handleFollow} className="btn blue" style={{ width: '100%', borderRadius: '0.3rem' }}><strong className="white-text">Follow</strong></div>)
                         :
-                        <Link to="/profile/edit" >< div className="btn black" style={{ width: '100%', borderRadius: '0.3rem' }}><strong className="white-text">Edit Profile</strong></div></Link>
+                        <div>
+                            <Link to="/profile/edit" >< div className="btn black" style={{ width: '48%', marginLeft: '2%', borderRadius: '0.3rem' }}><strong className="white-text">Edit Profile</strong></div></Link>
+                            {(favPosts) ? < div className="btn black" onClick={() => setFavPosts(false)} style={{ width: '48%', marginLeft: '2%', borderRadius: '0.3rem' }}><strong className="white-text">Show My Posts</strong></div> :
+                                < div className="btn black" onClick={() => setFavPosts(true)} style={{ width: '48%', marginLeft: '2%', borderRadius: '0.3rem' }}><strong className="white-text">Show Favourites</strong></div>}
+                        </div>
                 }
                 <hr className="hr-profile" />
                 <div className="row center">
                     <span className="col s4"><strong>{userData.posts.length}</strong><br />posts</span>
-                    <Link to={`/${userData._id}/followers`}><span className="col s4"><strong>{userData.followers.length}</strong><br />followers</span></Link>
-                    <Link to={`/${userData._id}/following`}><span className="col s4"><strong>{userData.following.length}</strong><br />following</span></Link>
+                    <Link to={`/followering/${userData._id}/followers`}><span className="col s4"><strong>{userData.followers.length}</strong><br />followers</span></Link>
+                    <Link to={`/followering/${userData._id}/following`}><span className="col s4"><strong>{userData.following.length}</strong><br />following</span></Link>
                 </div>
                 <hr className="hr-profile" />
                 <div className="my-posts">
                     {
-                        userData.posts.slice(0).reverse().map(post => <Link key={post._id + Math.random()} to={{ pathname: `/${userData._id}/${post._id}` }}><img style={{ width: '100%', height: '8rem' }} src={post.url} alt="posts" /></Link>)
+                        (favPosts) ?
+                            userData.favPosts.slice(0).reverse().map(post => <Link key={++count} to={{ pathname: `/myCollection/${post._id}` }}><img style={{ width: '100%', height: '8rem' }} src={post.url} alt="posts" /></Link>)
+                            :
+                            userData.posts.slice(0).reverse().map(post => <Link key={++count} to={{ pathname: `/${userData._id}/${post._id}` }}><img style={{ width: '100%', height: '8rem' }} src={post.url} alt="posts" /></Link>)
                     }
                 </div>
             </div>

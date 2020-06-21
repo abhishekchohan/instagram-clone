@@ -33,7 +33,7 @@ const EditProfile = () => {
             .then(result => {
                 if (!result.error) {
                     dispactch(set_loggedUser(result.user));
-                    alert("Updated Successfully");
+                    history.goBack();
                 }
             })
             .catch(er => console.log(er))

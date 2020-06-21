@@ -27,6 +27,23 @@ const Post = (props) => {
             .then(data => dispatch(update_data()))
             .catch(er => console.log(er));
     }
+
+    const handleFavPost = () => {
+        fetch("/post/favPost", {
+            method: "post",
+            headers: {
+                "Content-Type": "application/json",
+                "authorization": "Bearer " + localStorage.getItem('jwt')
+            },
+            body: JSON.stringify({ postId: id })
+        })
+            .then(data => data.json())
+            .then(data => dispatch(update_data()))
+            .catch(er => console.log(er));
+    }
+
+
+
     // post comment function..
     const postcomment = e => {
         e.preventDefault();
@@ -119,7 +136,10 @@ const Post = (props) => {
                 }
                 <Link to={`/${id}/comments`}><i className="far fa-comment fa-2x"></i></Link>
                 <i data-id={props.postId} onClick={handleDelete} className="fab fa-telegram-plane fa-2x"></i>
-                <i className="far fa-bookmark fa-2x"></i>
+                {
+                    mydata.favPosts.find(eachFav => eachFav === id) === undefined ? <i onClick={handleFavPost} className="far fa-bookmark fa-2x"></i> :
+                        <i onClick={handleFavPost} className="fas fa-bookmark fa-2x"></i>
+                }
             </div>
             <div className="post-top-part post-like-part">
                 <span style={{ marginLeft: "1rem" }}></span>
