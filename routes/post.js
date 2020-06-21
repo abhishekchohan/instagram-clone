@@ -25,6 +25,25 @@ router.get('/allposts', isLogged, (req, res) => {
 });
 
 
+router.get('/myCollections', isLogged, (req, res) => {
+    User.findById({ _id: req.user._id })
+        .exec()
+        .then(result => {
+            Post.find().where('_id').in(result.favPosts)
+                .populate("postedBy", "_id username dp")
+                .populate("likes", "_id username")
+                .populate('comments.by', "_id username")
+                .exec()
+                .then(posts => {
+                    const newPosts = result.favPosts.slice(0).reverse().map(id => posts.find(post => (post._id.equals(id)) ? post : undefined))
+                    res.json({ posts: newPosts })
+                })
+                .catch(err => console.log(err));
+        })
+        .catch(er => console.log(er));
+})
+
+
 // This route is for Like button functionality..
 router.post('/like', isLogged, (req, res) => {
     const { postId } = req.body;
@@ -119,7 +138,11 @@ router.post('/user/:id/posts', isLogged, (req, res) => {
         .populate('comments.by', "_id username")
         .exec()
         .then(posts => {
-            res.json({ posts })
+            if (posts) {
+                res.json({ posts })
+            } else {
+                res.json({ error: "error" })
+            }
         })
         .catch(err => console.log(err));
 });

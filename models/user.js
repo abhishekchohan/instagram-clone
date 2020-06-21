@@ -21,6 +21,9 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    dp: {
+        type: String,
+    },
     followers: [{
         type: ObjectId,
         ref: "User"

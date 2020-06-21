@@ -21,6 +21,23 @@ router.post('/user/:username', isLogged, (req, res) => {
         .catch(er => console.log(er))
 });
 
+router.post('/retrieve/favposts', isLogged, (req, res) => {
+    User.findById({ _id: req.user._id })
+        .populate("favPosts", "url _id")
+        .exec()
+        .then((foundUser) => {
+            if (!foundUser) {
+                return res.status(422).json({ error: "Invalid Username" })
+            } else {
+                foundUser.password = undefined;
+                res.json({ user: foundUser })
+            }
+        })
+        .catch(er => console.log(er))
+});
+
+
+
 router.post('/updateUser', isLogged, (req, res) => {
     const { username, email, fullname } = req.body.data;
     if (!email || !username || !fullname) {
@@ -46,19 +63,32 @@ router.post('/updateUser', isLogged, (req, res) => {
         .catch(er => console.log(er))
 });
 
+router.post('/post/favPost', isLogged, (req, res) => {
+    const { postId } = req.body;
+    User.findById(req.user._id)
+        .then(foundUser => {
+            if (foundUser.favPosts.find(id => id.equals(postId))) {
+                User.updateOne({ _id: req.user._id }, { $pull: { favPosts: postId } }).exec();
+            } else {
+                User.updateOne({ _id: req.user._id }, { $push: { favPosts: postId } }).exec();
+            }
+        })
+        .catch(er => console.log(er))
+    res.json({ message: "task completed." })
+});
 
-router.post('/updateProfilePhoto', isLogged, (req, res) => {
+router.put('/updateProfilePhoto', isLogged, (req, res) => {
     User.findOne({ username: req.body.username })
         .then((foundUser) => {
             if (!foundUser) {
                 return res.status(422).json({ error: "Invalid Username" })
             } else {
                 User.updateOne({ username: req.body.username }, { dp: req.body.dp }).exec();
+                foundUser.dp = req.body.dp;
+                res.json({ user: foundUser })
             }
         })
         .catch(er => console.log(er));
-
-    res.json({ message: "task completed." });
 });
 
 router.post('/user/:username/follow', isLogged, (req, res) => {
