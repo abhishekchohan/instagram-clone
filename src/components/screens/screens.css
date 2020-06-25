@@ -1,0 +1,9 @@
+ /* ================> Create Post Screen Styling <================= */
+
+.createPostBtn {
+    display: absolute;
+    position: fixed;
+    z-index: 8;
+    bottom: 10;
+    right: 20;
+}

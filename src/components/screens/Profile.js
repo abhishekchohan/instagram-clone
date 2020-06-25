@@ -6,12 +6,19 @@ import { useSelector } from 'react-redux';
 const Profile = () => {
     const { username } = useParams();
     const history = useHistory();
+    // isAuth to verify if user is already logged in or not.
     const isAuth = useSelector(state => state.isLogged);
+    // logged user will get logged user info from store.
     const loggedUser = useSelector(state => state.loggedUser);
+    // local states for handling profile data.
     const [userData, setUserData] = useState(null);
+    // local state to trigger useEffect after follow or unfollow a user
     const [follow, setFollow] = useState(false);
+    //local state to triger  useEffect to fetch different data.
     const [favPosts, setFavPosts] = useState(false);
+    // a counter to put in as a uniue key for map array.
     let count = 0;
+    // Fetch my favposts or myposts depending on the  favPosts state.
     useEffect(() => {
         fetch((favPosts) ? `/retrieve/favposts` : `/user/${username}`, {
             method: 'post',
