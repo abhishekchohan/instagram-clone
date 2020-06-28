@@ -4,8 +4,10 @@ const mongoose = require('mongoose');
 const User = mongoose.model("User");
 const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
+// middleware to check if user is logged in before accessing protected data
 const isLogged = require('../middlewares/isLogged');
 
+// This route returns userdata of the provided userId
 router.post('/user/:username', isLogged, (req, res) => {
     User.findOne({ username: req.params.username })
         .populate("posts", "url _id")
@@ -21,6 +23,7 @@ router.post('/user/:username', isLogged, (req, res) => {
         .catch(er => console.log(er))
 });
 
+// This route returns userdata along with his favposts information
 router.post('/retrieve/favposts', isLogged, (req, res) => {
     User.findById({ _id: req.user._id })
         .populate("favPosts", "url _id")
@@ -36,8 +39,7 @@ router.post('/retrieve/favposts', isLogged, (req, res) => {
         .catch(er => console.log(er))
 });
 
-
-
+// This router update user profile information with the information recieved
 router.post('/updateUser', isLogged, (req, res) => {
     const { username, email, fullname } = req.body.data;
     if (!email || !username || !fullname) {
@@ -63,6 +65,7 @@ router.post('/updateUser', isLogged, (req, res) => {
         .catch(er => console.log(er))
 });
 
+// This roue adds/removes favpostsIds from logged in user's account
 router.post('/post/favPost', isLogged, (req, res) => {
     const { postId } = req.body;
     User.findById(req.user._id)
@@ -77,6 +80,7 @@ router.post('/post/favPost', isLogged, (req, res) => {
     res.json({ message: "task completed." })
 });
 
+//  This route update the profile photo and returns updated user info
 router.put('/updateProfilePhoto', isLogged, (req, res) => {
     User.findOne({ username: req.body.username })
         .then((foundUser) => {
@@ -91,6 +95,7 @@ router.put('/updateProfilePhoto', isLogged, (req, res) => {
         .catch(er => console.log(er));
 });
 
+// this route will follow/unfollow particular user to/from loggeduser lists
 router.post('/user/:username/follow', isLogged, (req, res) => {
     User.findOne({ username: req.params.username })
         .then((foundUser) => {
@@ -110,6 +115,7 @@ router.post('/user/:username/follow', isLogged, (req, res) => {
     res.json({ message: "task completed." });
 });
 
+//  This route will register new user
 router.post('/signup', (req, res) => {
     const { username, email, password, fullname } = req.body;
     if (!email || !username || !password || !fullname) {
@@ -139,6 +145,8 @@ router.post('/signup', (req, res) => {
         .catch(err => console.log(err))
 });
 
+
+// This route will return user data if recieved data matches with the one we have in our DB
 router.post('/signin', (req, res) => {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -165,6 +173,8 @@ router.post('/signin', (req, res) => {
         .catch(err => console.log(err));
 });
 
+// This route recieves task params to know what task to perform
+//  following or followers = task options 
 router.get('/followersOrFollowings/:userId/:task', isLogged, (req, res) => {
     User.findById(req.params.userId, req.params.task)
         .populate(req.params.task, "username dp _id fullname followers")
@@ -173,7 +183,7 @@ router.get('/followersOrFollowings/:userId/:task', isLogged, (req, res) => {
             if (task) {
                 res.json({ [req.params.task]: task });
             } else {
-                res.json({ error: "no comments" });
+                res.status(422).json({ error: "wrong task" });
             }
         })
         .catch(er => console.log(er))

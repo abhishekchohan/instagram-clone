@@ -13,9 +13,7 @@ mongoose.connect(process.env.MONGO_DB_URI, {
 mongoose.connection.on('connected', () => {
     console.log("Connected to DB :)");
 })
-mongoose.connection.on('error', (err) => {
-    console.log("Error connecting to DB :(", err);
-})
+
 require('./models/user');
 require('./models/post');
 app.use(require('./routes/auth'));

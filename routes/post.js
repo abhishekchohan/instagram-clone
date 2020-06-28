@@ -3,6 +3,7 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const Post = mongoose.model("Post");
 const User = mongoose.model("User");
+// middleware to check if user is logged in before accessing protected data
 const isLogged = require('../middlewares/isLogged');
 
 
@@ -24,7 +25,7 @@ router.get('/allposts', isLogged, (req, res) => {
         .catch(err => console.log(err));
 });
 
-
+// This route is for myfavourite or mycollection
 router.get('/myCollections', isLogged, (req, res) => {
     User.findById({ _id: req.user._id })
         .exec()
@@ -94,6 +95,7 @@ router.post('/createpost', isLogged, (req, res) => {
         .catch(err => console.log(err))
 })
 
+// This route responds with all the comments for the provide postId
 router.get('/:postId/comments', isLogged, (req, res) => {
     Post.findById(req.params.postId, 'comments')
         .populate("comments.by", "username dp _id")
@@ -102,12 +104,13 @@ router.get('/:postId/comments', isLogged, (req, res) => {
             if (comments) {
                 res.json({ comments });
             } else {
-                res.json({ error: "no comments" });
+                res.status(422).json({ error: "no comments" });
             }
         })
         .catch(er => console.log(er))
 })
 
+// This route responds with all the likes for particular postId
 router.get('/:postId/likes', isLogged, (req, res) => {
     Post.findById(req.params.postId, 'likes')
         .populate("likes", "username dp _id fullname followers")
@@ -116,12 +119,13 @@ router.get('/:postId/likes', isLogged, (req, res) => {
             if (likes) {
                 res.json({ likes });
             } else {
-                res.json({ error: "no comments" });
+                res.status(422).json({ error: "no likes" });
             }
         })
         .catch(er => console.log(er))
 })
 
+// This route deletes the given postId
 router.get('/:postId/delete', isLogged, (req, res) => {
     Post.findByIdAndDelete(req.params.postId)
         .then(result => {
@@ -130,6 +134,7 @@ router.get('/:postId/delete', isLogged, (req, res) => {
         .catch(err => console.log(err));
 });
 
+//  this route responds with all the posts by particular user
 router.post('/user/:id/posts', isLogged, (req, res) => {
     Post.find({ postedBy: req.params.id })
         .sort({ postedTime: -1 })
@@ -141,7 +146,7 @@ router.post('/user/:id/posts', isLogged, (req, res) => {
             if (posts) {
                 res.json({ posts })
             } else {
-                res.json({ error: "error" })
+                res.status(422).json({ error: "error" })
             }
         })
         .catch(err => console.log(err));
