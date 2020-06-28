@@ -10,6 +10,7 @@ const Login = () => {
     const dispatch = useDispatch();
     // isAuth to verify if user is already logged in or not.
     const isAuth = useSelector(state => state.isLogged);
+    // local state to decide wether to display login page or not
     const [display, setDisplay] = useState(null);
     // usestate hook that contains object which carry email and passsword values.
     const [formData, setFormData] = useState({ email: "", password: "" });

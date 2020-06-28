@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams, useHistory } from "react-router-dom";
 import { useSelector } from 'react-redux';
 
-
 const Profile = () => {
     const { username } = useParams();
     const history = useHistory();
@@ -18,8 +17,9 @@ const Profile = () => {
     const [favPosts, setFavPosts] = useState(false);
     // a counter to put in as a uniue key for map array.
     let count = 0;
-    // Fetch my favposts or myposts depending on the  favPosts state.
+
     useEffect(() => {
+        // Fetch my favposts or myposts depending on the  favPosts state.
         fetch((favPosts) ? `/retrieve/favposts` : `/user/${username}`, {
             method: 'post',
             headers: {
@@ -39,7 +39,10 @@ const Profile = () => {
             .catch(er => console.log(er))
         //eslint-disable-next-line
     }, [follow, favPosts])
+
+
     const handleFollow = () => {
+        // Handle follow/unfollow requests
         fetch(`/user/${username}/follow`, {
             method: 'post',
             headers: {
@@ -50,6 +53,7 @@ const Profile = () => {
             .then(result => result.json())
             .then(result => {
                 if (!result.error) {
+                    // triggers useEffect to re-render updated view.
                     setFollow(prev => !prev);
                 }
             })
@@ -58,6 +62,7 @@ const Profile = () => {
     return (
         isAuth && userData ?
             <div className="profile card-home home">
+                {/* Top part with user dp & username */}
                 <div className="profile-info row">
                     <div className="col s4 left">
                         <img className="profile-img" src={userData.dp || require('../../images/profile-pic.jpg')} alt="profile-img" />
@@ -68,8 +73,10 @@ const Profile = () => {
                         </div>
                     </div>
                 </div>
+                {/* Prinitng full name of user */}
                 <span className="full-name"><strong>{userData.fullname}</strong></span><br /><br />
                 {
+                    /* if its logged user's own profile then display follow & unfollow button else edit profile and show fav/mypost buttons. */
                     (userData._id !== loggedUser._id) ? (userData.followers.find(id => id === loggedUser._id) ?
                         < div onClick={handleFollow} className="btn grey" style={{ width: '100%', borderRadius: '0.3rem' }}><strong className="white-text">Unfollow</strong></div>
                         :
@@ -82,12 +89,14 @@ const Profile = () => {
                         </div>
                 }
                 <hr className="hr-profile" />
+                {/* Display of number of posts, followers, followings for the user */}
                 <div className="row center">
                     <span className="col s4"><strong>{userData.posts.length}</strong><br />posts</span>
                     <Link to={`/followering/${userData._id}/followers`}><span className="col s4"><strong>{userData.followers.length}</strong><br />followers</span></Link>
                     <Link to={`/followering/${userData._id}/following`}><span className="col s4"><strong>{userData.following.length}</strong><br />following</span></Link>
                 </div>
                 <hr className="hr-profile" />
+                {/* display favposts or myposts depending on the state of favPosts */}
                 <div className="my-posts">
                     {
                         (favPosts) ?

@@ -1,3 +1,5 @@
+// The names of every action is self-expanatory except hPosts => homePosts
+
 export const set_islogged = () => {
     return {
         type: 'set_logged_true'

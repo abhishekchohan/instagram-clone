@@ -1,24 +1,33 @@
 import React, { useState } from "react";
 import { useHistory, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { set_loggedUser } from "../actions"
+import { set_loggedUser } from "../actions";
+import "./smallComponents.css";
 
 const EditProfile = () => {
 
     const history = useHistory();
-    const isAuth = useSelector(state => state.isLogged);
-    const loggedUser = useSelector(state => state.loggedUser);
     const dispactch = useDispatch();
+    // getting logged user info from state
+    const loggedUser = useSelector(state => state.loggedUser);
+    // state to know whether user is logged in or not.
+    const isAuth = useSelector(state => state.isLogged);
+
+    // local state to set data for user inputs in form
     const [data, setData] = useState({
         fullname: loggedUser.fullname,
         username: loggedUser.username,
         email: loggedUser.email
     });
+
+    // controlled from input
     const handleData = e => {
         const name = e.target.name;
         const value = e.target.value;
         setData(prev => { return { ...prev, [name]: value } });
     }
+
+    // on clicking done button will trigger this function that will handle form submission
     const handleSubmit = e => {
         e.preventDefault();
         fetch(`/updateUser`, {
@@ -38,6 +47,8 @@ const EditProfile = () => {
             })
             .catch(er => console.log(er))
     }
+
+    // Destructuring data into required variables
     const { fullname, username, email } = data;
 
     return <div className="home card card-home" style={{ minHeight: '65vh' }}>
@@ -46,9 +57,9 @@ const EditProfile = () => {
                 <div>
                     <form onSubmit={handleSubmit} method="post">
                         <div className="post-top-part">
-                            <i onClick={history.goBack} style={{ margin: '1rem', fontSize: '1.4rem', cursor: 'pointer' }} className="fas">Cancel</i>
-                            <i style={{ margin: '1.1rem auto', fontSize: '1.5rem' }} className="fas">Edit Profile</i>
-                            <i style={{ marginLeft: 'auto', margin: '1rem', fontSize: '1.4rem', cursor: 'pointer' }} onClick={handleSubmit} className="blue-text text-darken-2 fas">Done</i>
+                            <i onClick={history.goBack} className="ep-cancelBtn fas">Cancel</i>
+                            <i className="fas ep-headerTitle">Edit Profile</i>
+                            <i onClick={handleSubmit} className="blue-text text-darken-2 fas ep-doneBtn">Done</i>
                         </div>
                         <hr />
                         <div>
@@ -59,16 +70,16 @@ const EditProfile = () => {
                         </div>
                         <div style={{ marginTop: '1rem' }}>
                             <div className="row">
-                                <div style={{ fontSize: '1.3rem', width: '27%', marginTop: '0.5rem' }} className="col">Name</div>
-                                <input style={{ maxWidth: '70%', borderColor: 'white !important', marginRight: '3%' }} className="col" type="text" spellCheck="false" autoComplete="off" id="fullname" name="fullname" placeholder="Name" value={fullname} onChange={handleData} />
+                                <div className="ep-labelDiv col">Name</div>
+                                <input className="col ep-input" type="text" spellCheck="false" autoComplete="off" id="fullname" name="fullname" placeholder="Name" value={fullname} onChange={handleData} />
                             </div>
                             <div className="row">
-                                <div style={{ fontSize: '1.3rem', width: '27%', marginTop: '0.5rem' }} className="col">Username</div>
-                                <input style={{ maxWidth: '70%', borderColor: 'white !important', marginRight: '3%' }} className="col" type="text" spellCheck="false" autoComplete="off" id="username" name="username" placeholder="Username" value={username} onChange={handleData} />
+                                <div className="col ep-labelDiv">Username</div>
+                                <input className="col ep-input" type="text" spellCheck="false" autoComplete="off" id="username" name="username" placeholder="Username" value={username} onChange={handleData} />
                             </div>
                             <div className="row">
-                                <div style={{ fontSize: '1.3rem', width: '27%', marginTop: '0.5rem' }} className="col">Email</div>
-                                <input style={{ maxWidth: '70%', borderColor: 'white !important', marginRight: '3%' }} className="col" type="email" spellCheck="false" autoComplete="off" id="email" name="email" placeholder="Email" value={email} onChange={handleData} />
+                                <div className="col ep-labelDiv">Email</div>
+                                <input className="col ep-input" type="email" spellCheck="false" autoComplete="off" id="email" name="email" placeholder="Email" value={email} onChange={handleData} />
                             </div>
                         </div>
                     </form>

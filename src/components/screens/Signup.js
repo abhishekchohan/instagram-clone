@@ -10,6 +10,7 @@ const Signup = () => {
     const [formData, setFormData] = useState({ email: "", username: "", password: "", fullname: "" });
     // Destructuring the formaData into required lables/variables to make it little easy to work with these.
     const { email, password, fullname, username } = formData;
+
     // Whenever any form elemnet values changes handleFormData is called and make appropriate changes to state.
     // Controlled form elements.
     const handleFormData = e => {

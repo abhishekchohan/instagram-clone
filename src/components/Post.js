@@ -153,7 +153,7 @@ const Post = (props) => {
                 // caption and username // kind of comment but part of post
             }
             <div className="post-top-part post-comments">
-                <h6 className="post-comment-username"><Link to={`/user/${username}`}><strong>{username}</strong></Link></h6>
+                <h6 className="post-comment-username" style={{ paddingBottom: '0.2rem' }}><Link to={`/user/${username}`}><strong>{username}</strong></Link></h6>
                 <h6 className="comment">{caption}</h6>
             </div>
             {
@@ -161,13 +161,13 @@ const Post = (props) => {
                 comments.slice(-1, comments.length).map(each => {
                     // using random to generate a random key for each comment
                     return <div key={each.by._id + Math.random()} className="post-top-part post-comments">
-                        <h6 className="post-comment-username"> <Link to={`/user/${each.by.username}`}><strong>{each.by.username}</strong></Link></h6>
+                        <h6 className="post-comment-username" style={{ paddingBottom: '0.2rem' }}> <Link to={`/user/${each.by.username}`}><strong>{each.by.username}</strong></Link></h6>
                         <h6 className="comment">{each.comment} </h6>
                     </div>
                 })
             }
             {
-                // text only displayed if there are more tan 1 comment or atlast 2..
+                // text only displayed if there are more than 1 comment or atleast 2..
                 comments.length > 1 && <div style={{ marginLeft: '1rem' }}><Link to={`/${id}/comments`}><strong>View all comments.</strong></Link></div>
             }
             <div className="post-top-part post-comments">

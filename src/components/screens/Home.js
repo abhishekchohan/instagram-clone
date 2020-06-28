@@ -51,13 +51,13 @@ const Home = () => {
     }, [isAuth, isUpdate, id, postId]);         // its dependencies
 
     useEffect(() => {
-
         // This useEffect will run only when loading is completed and will move the view to the selected div/post 
         if (postId && loaded && posts.find(post => post._id === postId)) {
             document.getElementById(postId).scrollIntoView({ behavior: "smooth", block: "start" })
         }
         // eslint-disable-next-line
-    }, [loaded])
+    }, [loaded]);
+
     return (
         <div className="home card-home">
             {

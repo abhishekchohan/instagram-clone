@@ -1,0 +1,92 @@
+/* Comments smallComponent Styling */
+
+.comment-card {
+    min-height: 65vh;
+    height: auto;
+}
+
+.comment-card > .mainDiv{
+    position: relative;
+    padding-bottom: 5rem;
+}
+
+.comment-card > .mainDiv > .commentsDiv {
+    position: relative;
+    min-height: 50vh;
+    margin-bottom: 1rem;
+}
+
+.newCommentImg {
+    margin-top: -5px;
+    margin-left: 2rem;
+}
+
+/* LikesFollowingFollowers smallComponent Styling */
+
+.lff-card {
+    min-height: 65vh;
+}
+
+.llf-DataDiv {
+    position: relative;
+    margin-bottom: 4rem;
+}
+
+.llf-img {
+    margin-top: -5px;
+    margin-right: -5px;
+}
+
+.lff-userDetails {
+    margin-top: -0.4rem;
+}
+
+.lff-followBtn {
+    width: 30%;
+    margin-right: 1rem;
+    margin-left: auto;
+    border-radius: 0.3rem;
+}
+
+/* ProfilePhoto smallComponent Styling */
+
+.pp-selectBtn {
+    border-radius: 5px;
+    width: 30%;
+}
+
+/* EditProfile smallComponent Styling */
+
+.ep-doneBtn {
+    margin-left: auto;
+    margin: 1rem;
+    font-size: 1.4rem;
+    cursor: pointer;
+}
+
+.ep-cancelBtn {
+    margin: 1rem;
+    font-size: 1.4rem;
+    cursor: pointer;
+}
+
+.ep-headerTitle {
+    margin: 1.1rem auto;
+    font-size: 1.5rem;
+}
+
+.ep-labelDiv {
+    font-size: 1.3rem;
+    width: 27%;
+    margin-top: 0.5rem;
+}
+
+.ep-input {
+    max-width: 70%;
+    border-color: white !important;
+    margin-right: 3%;
+    font-size: 1.3rem !important;
+}
+
+
+/* =====> NOTE::  there is some inline styling for few margins only */

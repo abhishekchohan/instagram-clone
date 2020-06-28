@@ -1,3 +1,4 @@
+// This reducer will tell the app whether user is logged in or not.
 const loggedReducer = (state = null, action) => {
     switch (action.type) {
         case 'set_logged_true':

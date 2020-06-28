@@ -1,16 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link, useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
+import "./smallComponents.css";
 
 const Comments = () => {
 
+    //postId is recieved as a prop from Link
     const { postId } = useParams();
-    const [comments, setComments] = useState(null);
     const history = useHistory();
+    // comments is local state that store all the comments
+    const [comments, setComments] = useState(null);
+    // comment is a local state that store single comment posted by user
     const [comment, setComment] = useState("");
+    // update is used as a state to trigger useEffect whenever there is some new data to be fetch..
     const [update, setUpdate] = useState(false);
+    // Destructuring of logged user state into dp, username constants to use later 
     const { dp, username } = useSelector(state => state.loggedUser);
+
     useEffect(() => {
+        // Fetch all comments on selected post from database
         fetch(`/${postId}/comments`, {
             method: 'get',
             headers: {
@@ -21,12 +29,14 @@ const Comments = () => {
             .then(resp => resp.json())
             .then(result => {
                 if (!result.error) {
+                    // set all received comments from response to comments state
                     setComments(result.comments.comments);
                 }
             })
             .catch(er => console.log(er))
         //eslint-disable-next-line
-    }, [update])
+    }, [update]);
+
     // post comment function..
     const postcomment = e => {
         e.preventDefault();
@@ -39,8 +49,10 @@ const Comments = () => {
             body: JSON.stringify({ postId, comment })
         })
             .then(data => data.json())
+            //we will trigger the useEffect to run again to fetch new data
             .then(data => setUpdate(prev => !prev))
             .catch(er => console.log(er));
+        // reset the state to empty
         setComment("");
     }
 
@@ -50,17 +62,19 @@ const Comments = () => {
         setComment(value);
     }
     return (
-        <div className="card card-home" style={{ minHeight: '65vh', height: 'auto' }}>
+        <div className="card card-home comment-card">
             {
                 comments && (
-                    <div style={{ position: 'relative', paddingBottom: '5rem' }}>
+                    <div className="mainDiv">
+                        {/* Top part with a back button, Title and send message icon */}
                         <div className="post-top-part">
                             <i onClick={history.goBack} style={{ marginTop: '0.4rem' }} className="fas fa-chevron-left fa-2x"></i>
                             <i style={{ marginLeft: 'auto' }} className="fa-2x">Comments</i>
                             <i style={{ marginLeft: 'auto' }} className="fab fa-telegram-plane fa-2x"></i>
                         </div>
                         <hr />
-                        <div style={{ position: 'relative', minHeight: '50vh', marginBottom: '1rem' }}>
+                        {/*  Below is the list of all the comments on particular post */}
+                        <div className="commentsDiv">
                             {
                                 comments.map(each => {
                                     // using random to generate a random key for each comment
@@ -75,7 +89,7 @@ const Comments = () => {
                             }
                         </div>
                         <div className="post-top-part post-comments" style={{ position: 'absolute', bottom: 10 }}>
-                            <Link to={`/user/${username}`} ><img style={{ marginTop: '-5px', marginLeft: '2rem' }} className="post-profile-pic" width="35" height="35" src={dp || require('../../images/profile-pic.jpg')} alt="profile pic" /></Link>
+                            <Link to={`/user/${username}`} ><img className="post-profile-pic newCommentImg" width="35" height="35" src={dp || require('../../images/profile-pic.jpg')} alt="profile pic" /></Link>
                             <form className="comment-add" onSubmit={postcomment}>
                                 <input className="comment-add" placeholder="Add a comment"
                                     type="text" name="comment" value={comment} onChange={handleComment} autoComplete="off" spellCheck={false} />

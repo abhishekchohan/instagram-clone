@@ -1,3 +1,4 @@
+// set_hposts will set new data however update_hposts will update data in store.
 const homePostReducer = (state = [], action) => {
     switch (action.type) {
         case 'SET_HPOSTS':
