@@ -1,0 +1,28 @@
+/* =======================     Global body Styling =============== */
+
+body {
+  margin: 10vh auto;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #fafafa;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* ==================    Global Styling for Large Scrren Devices    ======================= */
+
+@media (min-width: 1025px) {
+  body{
+    width: 60%;
+  }
+  .nav-wrapper{
+    width: 60%;
+    margin: 0 auto;
+  }
+}

@@ -1,0 +1,345 @@
+@import url('https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap');
+
+/* =================  Some global styling =================== */
+
+.text-transparent {
+    color: transparent;
+}
+
+a {
+    color: #000 !important;
+}
+
+a:hover {
+    background-color: transparent !important;
+  }
+
+  strong {
+    color: #000000;
+}
+  
+  /* ==========================   Navbar Styling ====================== */
+  
+  nav {
+    position: fixed;
+    top:0;
+    left: 0;
+    z-index: 99;
+  }
+  
+
+
+/* ===========  Placeholder color styling =============== */
+
+:-moz-placeholder { /* Firefox 18- */
+    color: grey;
+    opacity: 1 !important;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+    color: grey;
+    opacity: 1 !important;
+}
+
+:-ms-input-placeholder {  
+   color: grey;
+}
+
+::-webkit-input-placeholder {
+    color: grey;
+    opacity: 1 !important; /* for older chrome versions. may no longer apply. */
+}
+
+/* =======  Instagram Font ========== */
+
+.insta-font{
+    font-family: 'Grand Hotel', cursive;
+}
+
+
+/* ===========  home screen styling ====== */
+
+/* .card-home {
+    width: 100% !important;
+} */
+
+.card-home {
+    max-width: 500px;
+    width: auto;
+    margin: 0 auto;
+}
+
+/* ==================  Post Screen/ Each Post Styling ============== */
+
+.my-posts {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 0.2rem;
+}
+
+.my-posts > img {
+    max-width: 100%;
+    max-height: 100%;
+    height: auto;
+    width: auto;
+}
+
+
+.image-card {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.image-card > img {
+    object-fit: cover;
+}
+
+.full-name {
+    margin: 0 0 0.3rem 0.3rem !important;
+}
+
+
+
+.profile-flex {
+    display: flex;
+    margin: 1rem 0;
+    justify-content: space-around;
+    flex-wrap: wrap !important;
+}
+
+
+.post-profile-pic {
+    margin: 0.2rem 1rem;
+    border: solid 1px red;
+    border-radius: 50%;
+}
+
+.post-top-part {
+    display: flex;
+    width: 100%;
+}
+
+.post-top-more {
+    margin-left: auto;
+    margin-top: 1rem;
+    margin-right: 1rem;
+    font-size: large;
+}
+
+.post-liked-username {
+    margin: auto 0;
+}
+
+.post-comment-username {
+    margin: 0.3rem 0.5rem 0.3rem 1rem;
+    color: black;
+    overflow: hidden;
+}
+
+.comment-add {
+    margin-top: 0 !important;
+    width: 85% !important;
+    height: 1.5rem !important;
+    border-bottom: none !important;
+}
+
+.post-top-part > input:focus {
+    box-shadow: 0 1px 0 0 transparent !important;
+}
+
+
+.comment {
+    color: #444444;
+    margin: 0.3rem 0;
+    word-break: break-all;
+}
+
+.post-comments {
+    color: #444444;
+    margin: 0.5rem 0;
+}
+
+.post-like-part {
+    color: #444444;
+}
+
+.post-username {
+    margin: auto 0;
+    color: black;
+    font-weight: 450;
+}
+
+.upload-card {
+    width: 100%;
+    margin: 0 auto;
+    padding: 1em;
+}
+
+.dropdown-options{
+    padding: 1.1rem;
+    font-size: large;
+    padding-right: auto;
+}
+
+/* =====================   Modal Styling   ====================== */
+
+#modal1 {
+    width: 100% !important;
+    min-height: 100% !important;
+    margin: 0 0px !important;
+    margin-right: 0px !important;
+    padding: 0 !important;
+}
+.modal-content {
+    max-width: 100%;
+    max-height: 100%;
+    height: auto;
+    width: auto;
+}
+
+
+/* ==============  Font Awesome Icons Styling ==============  */
+
+.fa-heart {
+    margin: 0.5rem 0.7rem;
+}
+
+.fa-comment {
+    margin: 0.5rem 0.7rem;
+}
+
+.fa-telegram-plane {
+    margin: 0.5rem 0.7rem;
+}
+
+.fa-bookmark {
+    margin: 0.5rem auto;
+    margin-left: auto;
+    margin-right: 1rem;
+}
+
+
+/* =============================================================
+                Login & Signup Screen Styling
+============================================================= */
+
+
+.card-login {
+    text-align: center;
+    width: 80vw;
+    min-height: 6vh;
+    padding: 2%;
+    margin: 5% auto !important;
+}
+
+.signup-card {
+    margin-top: -4% !important;
+}
+
+.app-card {
+    margin-bottom: -5% !important;
+    border: 0 solid white !important;
+    box-shadow: 0 0 0 0 white !important;
+    display: flex;
+    flex-direction: column;
+}
+.card-login > input {
+    margin: 1.5rem !important;
+    width: 85% !important;
+    border-radius: 5px !important;
+    border: 0.5px solid grey !important;
+    box-shadow: 0 0.5px 0 0 grey !important;
+    padding-left: 7.5px !important;
+}
+.card-login > input:focus {
+    border: 1px solid #000 !important;
+    box-shadow: 0 1px 0 0 #000 !important;
+}
+
+.insta-btn {
+    width: 90% !important;
+    border-radius: 5px;
+}
+
+.or-container {
+    margin-top: 5%;
+    display: flex;
+    color: grey !important;
+}
+
+.card-login > div > hr {
+    width: 40%;
+}
+
+/* =====================  Profile page Styling  ===================== */
+
+
+.hr-profile {
+    border-top: 1px solid #e0e0e0 !important;
+    box-shadow: 0 0 9px 0 #e0e0e0 !important;
+}
+
+.profile-img {
+    width: 10rem;
+    height: 10rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 100%;
+}
+
+.profile-data{
+    color: #555555;
+    margin: 0.5rem auto!important;
+}
+
+.username {
+    font-size: 1.5rem !important;
+    margin: 0 0.5rem !important;
+}
+
+
+.edit-btn {
+    width: 90%;
+    margin: 1rem auto 0.3rem auto;
+    padding: 0.3rem;
+    text-align: center;
+    border: 1px solid black;
+}
+
+
+/* ======================  Larger Screen Responsive Queries ================ */
+
+@media (min-width: 500px) {
+    .card-login {
+        width: 400px;
+        min-height: 6vh;
+    }
+    .profile-data {
+        padding: 0 0 0 6rem !important;
+    }
+    .my-posts {
+        margin-top: 0rem;
+    }
+    .edit-btn {
+        min-width: 10%;
+        max-width: 40%;
+    }
+    .username {
+        font-size: 2rem !important;
+        margin: 0 0.2rem !important;
+        margin-top: 0.5rem !important;
+    }
+    .flex-settings {
+        margin-top: 1rem;
+    }
+
+    .upload-card {
+        width: 400px;
+    }
+    #modal1 {
+        max-width: 450px !important;
+    }
+
+    .far:hover,.fas:hover,.fab:hover {
+        color: grey;
+    }
+}
