@@ -2,7 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:1234",
+  "proxy": "http://localhost:5000",
   "dependencies": {
     "ismobilejs": "^1.1.1",
     "materialize-css": "^1.0.0",
